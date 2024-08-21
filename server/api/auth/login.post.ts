@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import { generateTokens, sendRefreshToken } from "../../utils/jwt.js"
 import { userTransformer } from "~~/server/transformers/user.js"
 import { createRefreshToken } from "../../db/refreshTokens.js"
-import {readBody, sendError} from "h3"
+import { sendError } from "h3"
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
         }))
     }
 
-    const user = await getUserByUsername(username)
+    const user:any = await getUserByUsername(username)
 
     if (!user) {
         return sendError(event, createError({
