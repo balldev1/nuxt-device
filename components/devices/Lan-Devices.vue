@@ -3,7 +3,7 @@
     <!--   layout   -->
       <div v-for="(host, hostIndex) in lanDevice.Hosts" :key="hostIndex" class="grid grid-cols-2    ">
         <div v-for="(hostItem, itemIndex) in host" :key="itemIndex" class="   py-2">
-          <div v-if="hostItem.MACAddress" class="  ">
+            <div v-if="hostItem.MACAddress" class="  ">
             <div
                 class=" rounded-md  w-full  pt-5  ">
               <div class="relative flex flex-col    gap-2  w-full     px-5 ">
@@ -113,7 +113,7 @@ import ConfigDevices from "~/components/devices/Config-Devices.vue";
 
 
 const props = defineProps<{ device: Device }>();
-
+console.log(props)
 const error = ref<string | null>(null);
 
 

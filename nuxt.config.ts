@@ -8,7 +8,13 @@ export default defineNuxtConfig({
     jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
   },
 
-  css: ['~/assets/css/main.css'],
+  css: [
+    '~/assets/css/main.css',
+  ],
+
+  modules: [
+    '@nuxt/image'
+  ],
 
   postcss: {
     plugins: {
@@ -16,10 +22,4 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-
-  plugins: [
-    '~/plugins/three-background.js'
-  ],
-
-  modules: ["@nuxt/image"]
-})
+});

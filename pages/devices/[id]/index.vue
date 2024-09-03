@@ -27,7 +27,7 @@
         </div>
         <div class="border-b-2 border-sky-950  pt-2"/>
         <!--     isLoading     -->
-        <div v-if="isLoading" class="text-center mt-4">
+        <div v-if="isLoading && device" class="text-center mt-4">
           <span>Loading...</span>
         </div>
         <!--     content     -->

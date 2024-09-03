@@ -1,6 +1,6 @@
 <template>
-  <div class="relative scale-75">
-    <div class="mt-8 flex  gap-5  items-center justify-center">
+  <div class="relative ">
+    <div class="mt-8 flex  gap-3  items-center justify-center">
       <div class="relative">
         <div class="absolute top-[-20px] left-1 text-md py-2 badge rounded-sm bg-yellow-400 text-black font-bold border-none shadow-sm shadow-gray-950">
           Device
@@ -55,17 +55,17 @@
         </select>
       </div>
       <button @click="filterDevices"
-              class="btn btn-square bg-lime-400 border-none hover:bg-lime-300 shadow-sm shadow-gray-950">
+              class="btn btn-md btn-square bg-lime-400 border-none hover:bg-lime-300 shadow-sm shadow-gray-950">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-950" viewBox="0 0 1664 1664">
           <path fill="currentColor" d="M1152 704q0-185-131.5-316.5T704 256T387.5 387.5T256 704t131.5 316.5T704 1152t316.5-131.5T1152 704zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124q-143 0-273.5-55.5t-225-150t-150-225T0 704t55.5-273.5t150-225t225-150T704 0t273.5 55.5t225 150t150 225T1408 704q0 220-124 399l343 343q37 37 37 90z"/>
         </svg>
       </button>
 
       <button @click="resetFilters"
-              class="btn btn-square bg-red-600 hover:bg-red-500  border-none  shadow-sm shadow-gray-950">
+              class="btn btn-square btn-md bg-red-600 hover:bg-red-500  border-none  shadow-sm shadow-gray-950">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg>      </button>
       <button @click="exportToExcel"
-              class="btn btn-square bg-sky-200 border-none hover:bg-sky-100 shadow-sm shadow-gray-950">
+              class="btn btn-md btn-square bg-sky-200 border-none hover:bg-sky-100 shadow-sm shadow-gray-950">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-lime-950" viewBox="0 0 512 512"><path fill="currentColor" d="M453.547 273.449H372.12v-40.714h81.427v40.714zm0 23.264H372.12v40.714h81.427v-40.714zm0-191.934H372.12v40.713h81.427V104.78zm0 63.978H372.12v40.713h81.427v-40.713zm0 191.934H372.12v40.714h81.427V360.69zm56.242 80.264c-2.326 12.098-16.867 12.388-26.58 12.796H302.326v52.345h-36.119L0 459.566V52.492L267.778 5.904h34.548v46.355h174.66c9.83.407 20.648-.291 29.197 5.583c5.991 8.608 5.41 19.543 5.817 29.43l-.233 302.791c-.29 16.925 1.57 34.2-1.978 50.892zm-296.51-91.256c-16.052-32.57-32.395-64.909-48.39-97.48c15.82-31.698 31.408-63.512 46.937-95.327c-13.203.64-26.406 1.454-39.55 2.385c-9.83 23.904-21.288 47.169-28.965 71.888c-7.154-23.323-16.634-45.774-25.3-68.515c-12.796.698-25.592 1.454-38.387 2.21c13.493 29.78 27.86 59.15 40.946 89.104c-15.413 29.081-29.837 58.57-44.785 87.825c12.737.523 25.475 1.047 38.212 1.221c9.074-23.148 20.357-45.424 28.267-69.038c7.096 25.359 19.135 48.798 29.023 73.051c14.017.99 27.976 1.862 41.993 2.676zM484.26 79.882H302.326v24.897h46.53v40.713h-46.53v23.265h46.53v40.713h-46.53v23.265h46.53v40.714h-46.53v23.264h46.53v40.714h-46.53v23.264h46.53v40.714h-46.53v26.897H484.26V79.882z"/></svg>
       </button>
     </div>
