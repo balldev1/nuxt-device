@@ -1,4 +1,4 @@
-export const userTransformer = (user) => {
+export const userTransformer = (user:any) => {
     return {
         id: user.id,
         name: user.name,
