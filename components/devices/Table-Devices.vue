@@ -1,6 +1,6 @@
 <template>
   <div class="relative ">
-    <div class="mt-8 flex  gap-6  items-center justify-center">
+    <div class="mt-7 flex  gap-2  items-center justify-center">
       <div class="relative">
         <div class="absolute top-[-20px] left-1 text-md py-2 badge rounded-sm bg-yellow-400 text-black font-bold border-none shadow-sm shadow-gray-950">
           Device

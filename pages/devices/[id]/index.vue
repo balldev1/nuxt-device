@@ -4,7 +4,8 @@
     <div class="  rounded-md  pb-8 pt-4 px-5  bg-white shadow-sm shadow-gray-500  ">
       <div class="pl-4   pb-2">
         <div class="flex items-center  ">
-          <div class=" flex p-2 px-4 gap-5 items-center rounded-md bg-gradient-to-t from-sky-950 to-sky-900 shadow-md shadow-gray-400">
+          <div
+              class=" flex p-2 px-4 gap-5 items-center rounded-md bg-gradient-to-t from-sky-950 to-sky-900 shadow-md shadow-gray-400">
             <div
                 class=" p-2 rounded-md bg-yellow-400 shadow-gray-950 shadow-sm hover:scale-105 transform transition duration-300 ease-in-out">
               <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="text-sky-950" viewBox="0 0 16 16">
@@ -19,19 +20,24 @@
                 </g>
               </svg>
             </div>
-            <div class="flex flex-col "  >
+            <div class="flex flex-col ">
               <h1 class="text-white font-bold text-xl ">Device </h1>
               <span class="text-sm  text-white">{{ id }}</span>
             </div>
           </div>
         </div>
-        <div class="border-b-2 border-sky-950  pt-2"/>
+        <div
+             class="border-b-2 border-sky-950  pt-2"/>
         <!--     isLoading     -->
-        <div v-if="isLoading && device" class="text-center mt-4">
-          <span>Loading...</span>
+        <div v-if="isLoading && device" class="flex flex-col items-center justify-center h-screen">
+          <div>
+            <span class="loading loading-spinner text-warning h-40 w-40"></span>
+          </div>
+          <p class="text-2xl text-sky-950">
+            loading ...
+          </p>
         </div>
-        <!--     content     -->
-        <InfoDevices :device="device"   />
+        <InfoDevices :device="device"/>
       </div>
     </div>
   </div>
@@ -61,7 +67,7 @@ const fetchData = async () => {
   } catch (err: any) {
     error.value = err.message;
     console.error('Error fetching data:', err);
-  }finally {
+  } finally {
     isLoading.value = false;
   }
 };

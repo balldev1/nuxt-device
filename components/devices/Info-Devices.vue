@@ -141,6 +141,14 @@
     <!-- parameter   -->
       <ParameteDevices :device="props.device" class="mt-5"/>
   </div>
+  <div v-else  class="flex flex-col items-center justify-center h-screen">
+    <div>
+      <span class="loading loading-spinner text-warning h-40 w-40"></span>
+    </div>
+    <p class="text-2xl text-sky-950">
+      loading ...
+    </p>
+  </div>
 </template>
 <!--v-if=" props.device.InternetGatewayDevice && props.device.InternetGatewayDevice.LANDevice"-->
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen w-full flex flex-col  bg-gray-100 ">
+  <div class="min-h-screen w-full overflow-x-hidden flex flex-col  bg-gray-100 ">
     <!-- ส่ง ฟันชั่น กับ ค่า sidebar เป็น prop -->
     <SideBarCard
         v-if="showSidebar"
