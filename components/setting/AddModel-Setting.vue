@@ -2,55 +2,37 @@
   <div class="bg-gray-200 rounded-md  shadow-sm  shadow-gray-950">
     <div
         class="flex gap-2 items-center justify-center text-white  mb-5 bg-gradient-to-t from-sky-950 to-sky-800 py-2 rounded-t-md shadow-sm shadow-gray-400">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-           viewBox="0 0 24 24"><g fill="none"><circle cx="9" cy="9" r="4" fill="currentColor"/><path fill="currentColor" fill-rule="evenodd" d="M14.864 18.813c.021.105.11.187.218.187h1.785c.602 0 1.054-.529.853-1.096C17.3 16.72 16.295 15 14 15c-.126 0-.247.005-.365.015c-.376.032-.472.494-.22.774c.905 1.005 1.285 2.203 1.449 3.024m-1.336-.98c.243.583-.236 1.167-.868 1.167h-1.527c-.602 0-1.054-.529-.853-1.096c.19-.536.5-1.181.995-1.728a.75.75 0 0 1 1.058-.055c.572.506.948 1.122 1.195 1.712" clip-rule="evenodd"/><path fill="currentColor" d="M9 15c3.572 0 4.592 2.551 4.883 4.009c.109.541-.33.991-.883.991H5c-.552 0-.992-.45-.883-.991C4.408 17.55 5.428 15 9 15"/><path fill="currentColor" fill-rule="evenodd" d="M12.482 12.588A4.985 4.985 0 0 0 14 9c0-.7-.144-1.368-.404-1.973a3 3 0 1 1-1.114 5.561m-.77-.648A3.99 3.99 0 0 0 13 9c0-.597-.13-1.163-.365-1.672a3 3 0 0 0-.923 4.612" clip-rule="evenodd"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M19 3v4m2-2h-4"/></g></svg>
-      Add Group
+      <svg xmlns="http://www.w3.org/2000/svg"  width="20" height="20"
+           viewBox="0 0 56 56"><path fill="currentColor" d="M10.785 20.723c0-6.657 3.516-10.102 10.195-10.102h21.047v-.586c0-4.828-2.46-7.265-7.36-7.265H9.638c-4.899 0-7.36 2.437-7.36 7.265v24.656c0 4.852 2.461 7.266 7.36 7.266h1.148Zm10.57 32.508h25.032c4.875 0 7.336-2.415 7.336-7.243V21.074c0-4.828-2.461-7.265-7.336-7.265H21.356c-4.922 0-7.36 2.437-7.36 7.265v24.914c0 4.828 2.438 7.243 7.36 7.243m12.563-9.165c-1.078 0-1.945-.867-1.945-2.039v-6.515h-6.586c-1.078 0-2.063-.938-2.063-2.016c0-1.031.985-1.992 2.063-1.992h6.586v-6.492c0-1.149.867-2.016 1.945-2.016s1.922.867 1.922 2.016v6.492h6.375c1.195 0 2.18.914 2.18 1.992c0 1.102-.985 2.016-2.18 2.016H35.84v6.515c0 1.172-.844 2.04-1.922 2.04"/></svg>
+      Add Model
     </div>
     <div
         class=" px-5 pb-4 space-y-5 pt-2  ">
       <label
-          class="form-control grid grid-cols-2  gap-5  w-full">
-        <div>
-          <div
-              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-            <span class="text-white">What is Mode ?</span>
-          </div>
-          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select v-model="selectedMode"
-                    class="select w-full  border-none focus:outline-none bg-white">
-              <option value="" disabled selected>Selected Mode</option>
-              <option
-                  v-for="item in mode"
-                  :key="item._id"
-                  :value="item._id">
-                {{ item.name }}
-              </option>
-            </select>
-          </div>
-        </div>
+          class="form-control    ">
         <div
-             class="border-2 ">
-          <div class="w-full ">
+            class="border-2 w-full  flex items-center justify-center ">
+          <div class="w-full max-w-sm">
             <div
                 class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-              <span class="text-white">What is Group Name ?</span>
+              <span class="text-white">What is Model Name ?</span>
             </div>
             <input
-                v-model="group"
-                type="text" placeholder="name"
-                class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
+                   v-model="group"
+                   type="text" placeholder="name"
+                   class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
           </div>
         </div>
       </label>
       <div class="flex flex-col items-center justify-center">
         <h1 class="badge bg-yellow-300 border-none px-4 py-4 mt-2 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold "> กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
         <div class="flex  items-center justify-center gap-6 pt-6">
-          <button :disabled="!group || !selectedMode"
+          <button :disabled="!group"
                   @click="confirmSubmit"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-44 border-none text-white shadow-sm shadow-gray-950">
             Confirm
           </button>
-          <button :disabled="!group || !selectedMode "
+          <button :disabled="!group"
                   @click="confirmReset"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400 w-44 border-none text-white shadow-sm shadow-gray-950">
             Reset

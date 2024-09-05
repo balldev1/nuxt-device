@@ -4,6 +4,9 @@
       <WelcomeDashboardSetting/>
     </div>
     <!-- Use the selectedParameter value here -->
+    <div v-if="selectedParameter === 'Addmodel'">
+      <AddModelSetting/>
+    </div>
     <div v-if="selectedParameter === 'Addgroup'">
       <AddGroupSetting/>
     </div>
@@ -22,6 +25,7 @@ import { defineProps } from 'vue';
 import AddGroupSetting from "~/components/setting/AddGroup-Setting.vue";
 import AddSystemSetting from "~/components/setting/AddSystem-Setting.vue";
 import WelcomeDashboardSetting from "~/components/setting/WelcomeDashboard-Setting.vue";
+import AddModelSetting from "~/components/setting/AddModel-Setting.vue";
 
 const props = defineProps<{
   selectedParameter: string | null;

@@ -5,19 +5,18 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event); // ดึงข้อมูลที่ส่งมาจาก request body
 
         // ตรวจสอบว่ามีข้อมูลที่จำเป็นครบถ้วนหรือไม่
-        if (!body.name || !body.parentId) {
-            return { error: 'Please provide both name and parentId.' };
+        if (!body.name) {
+            return { error: 'Please provide name .' };
         }
 
         // สร้างเอกสารใหม่ในฐานข้อมูล
-        const newGroup = await prisma.grouptest.create({
+        const newModel = await prisma.modeltest.create({
             data: {
                 name: body.name,
-                parentId: body.parentId
             }
         });
 
-        return newGroup;
+        return newModel;
     } catch (error) {
         return { error: 'Error creating group', details: error.message };
     }

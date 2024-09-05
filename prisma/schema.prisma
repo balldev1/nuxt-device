@@ -13,6 +13,11 @@ model grouptest {
   parentId String?
 }
 
+model modeltest {
+  id   String  @id @default(auto()) @map("_id") @db.ObjectId
+  name String?
+}
+
 model parametertest {
   id    String  @id @default(auto()) @map("_id") @db.ObjectId
   name  String?

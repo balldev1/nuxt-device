@@ -7,7 +7,7 @@
       <table class="table rounded-md">
         <thead class=" text-[14px] text-md   text-white">
         <!-- _deviceId -->
-        <tr class="     ">
+        <tr >
           <th class="bg-sky-950  rounded-l-md"></th>
           <th  class="bg-sky-950 ">Device</th>
           <th  class="bg-sky-950">Model</th>
@@ -39,7 +39,7 @@
                   class="dropdown-content text-white menu bg-gradient-to-t from-sky-950 to-sky-800 rounded-box z-[1]  shadow-sm shadow-sky-950 absolute top-0 left-20 pointer-events-auto"
               >
                 <li class="hover:bg-yellow-400 shadow-sm hover:shadow-sky-950 hover:text-black rounded-md">
-                  <NuxtLink :href="`/setting/${item._id}`">Config</NuxtLink>
+                  <NuxtLink :href="`/setting/${item._deviceId._ProductClass}`">Config</NuxtLink>
                 </li>
                 <li class="hover:bg-yellow-400 shadow-sm hover:shadow-sky-950 hover:text-black rounded-md"><a>Rename</a></li>
                 <li class="hover:bg-yellow-400 shadow-sm hover:shadow-sky-950 hover:text-black rounded-md"><a>Delete</a></li>
@@ -85,6 +85,7 @@ interface Device {
 const props = defineProps<{
   device: Device[];
 }>();
+console.log(props.device)
 
 
 </script>
