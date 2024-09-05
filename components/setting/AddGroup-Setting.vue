@@ -32,23 +32,23 @@
             </select>
           </div>
         </div>
-        <div v-if="selectedMode"
+        <div
              class="border-2 ">
           <div class="w-full ">
             <div
                 class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
               <span class="text-white">What is Group Name ?</span>
             </div>
-            <input
+            <input :disabled="!selectedMode"
                 v-model="group"
                 type="text" placeholder="name"
                 class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
           </div>
         </div>
       </label>
-      <div class="flex flex-col items-center justify-center  ">
-        <h1 class="badge bg-yellow-300 border-none px-4 py-3 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold "> กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
-        <div class="flex  items-center justify-center gap-6 pt-4">
+      <div class="flex flex-col items-center justify-center   ">
+        <h1 class="badge bg-yellow-300 border-none px-4 py-4 mt-2 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold "> กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
+        <div class="flex  items-center justify-center gap-6 pt-5">
           <button :disabled="!group"
                   @click="confirmSubmit"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-36 border-none text-white shadow-sm shadow-gray-950">
@@ -60,6 +60,11 @@
             Reset
           </button>
         </div>
+      </div>
+      <div class="flex items-center gap-5 justify-center pt-10">
+        <span class="loading loading-dots loading-lg"></span>
+        <span class="loading loading-dots loading-lg"></span>
+        <span class="loading loading-dots loading-lg"></span>
       </div>
     </div>
   </div>
