@@ -1,9 +1,9 @@
 <template>
   <div>
-    <!-- Use the selectedParameter value here -->
-    <div v-if="selectedParameter === 'Add'">
-      <AddParameteSetting/>
+    <div v-if="!selectedParameter">
+      <WelcomeDashboardSetting/>
     </div>
+    <!-- Use the selectedParameter value here -->
     <div v-if="selectedParameter === 'Addgroup'">
       <AddGroupSetting/>
     </div>
@@ -19,9 +19,9 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import AddParameteSetting from "~/components/setting/AddParamete-Setting.vue";
 import AddGroupSetting from "~/components/setting/AddGroup-Setting.vue";
 import AddSystemSetting from "~/components/setting/AddSystem-Setting.vue";
+import WelcomeDashboardSetting from "~/components/setting/WelcomeDashboard-Setting.vue";
 
 const props = defineProps<{
   selectedParameter: string | null;
