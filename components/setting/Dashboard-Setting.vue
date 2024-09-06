@@ -53,11 +53,12 @@
           </div>
         </button>
 
-        <div class="dropdown border-2 flex z-50  text-white">
+        <div
+            class="dropdown border-2 flex z-50  text-white">
           <div tabIndex={0} role="button"
                class="btn text-white z-50  hover:text-yellow-400 bg-gradient-to-t from-sky-950 to-sky-800 shadow-gray-400  shadow-sm border-none w-full">
             <div class=" w-full flex items-center   gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height=""
                    viewBox="0 0 24 24">
                 <g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5">
                   <path stroke-linecap="round"
@@ -67,22 +68,17 @@
                         d="m11.691 11.829l-7.8-4.334A.6.6 0 0 0 3 8.02v8.627a.6.6 0 0 0 .309.525l7.8 4.333A.6.6 0 0 0 12 20.98v-8.627a.6.6 0 0 0-.309-.524Z"/>
                 </g>
               </svg>
-              <h1 class="">Selete Paramete</h1>
+              <h1 class="">Selete Parameter</h1>
             </div>
           </div>
           <ul tabIndex={0} class="dropdown-content menu
              bg-gradient-to-t from-sky-950 z-50 to-sky-800 shadow-gray-950 shadow-sm border-none  w-52 p-2
               rounded-md text-white">
-            <li @click="selectParameter('System')"
-                class="rounded-md hover:bg-yellow-300 hover:text-black"><a>System Information</a></li>
-            <li @click="selectParameter('Nat')"
-                class="rounded-md hover:bg-yellow-300 hover:text-black"><a>NAT Forwarding</a></li>
-            <li @click="selectParameter('Multi')"
-                class="rounded-md hover:bg-yellow-300 hover:text-black"><a>Multi-SSID</a></li>
-            <li @click="selectParameter('Network')"
-                class="rounded-md hover:bg-yellow-300 hover:text-black"><a>Network Map</a></li>
-            <li @click="selectParameter('Parental')"
-                class="rounded-md hover:bg-yellow-300 hover:text-black"><a>Parental Controls</a></li>
+            <li v-for="(item,index) in parameter" :key="item.index"
+                @click="selectParameter(item.name)"
+                class="rounded-md hover:bg-yellow-300 p-2 hover:text-black">
+                {{item.name}}
+            </li>
           </ul>
         </div>
       </div>
@@ -95,12 +91,49 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
+import axios from 'axios';
 import SetParamSetting from '~/components/setting/SetParam-Setting.vue';
+import {useRoute} from "vue-router";
 
-const selectedParameter = ref<string | null>(null);
+interface Device {
+  _id: string;
+  name: any;
+  device: any;
+  parent_group:any;
+  group: any;
+}
+
+const route = useRoute();
+const id = route.params.id
+const selectedParameter = ref<string | null>('Manufacturer');
+
 
 function selectParameter(parameter: string) {
   selectedParameter.value = parameter;
 }
+interface Device {
+  _id: string;
+  name: any;
+  model: any;
+}
+const parameter = ref<Device[]>([]);
+const props = defineProps<{ device: Device }>();
+
+const fetchData = async () => {
+  try {
+    // ใช้ axios ในการดึงข้อมูล
+    const response = await axios.get(`/api/group`);
+    parameter.value = response.data;
+  } catch (err: any) {
+    error.value = err.message;
+    console.error('Error fetching data:', err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchData();
+});
 </script>

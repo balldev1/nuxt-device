@@ -19,8 +19,14 @@ model modeltest {
 }
 
 model parametertest {
-  id    String  @id @default(auto()) @map("_id") @db.ObjectId
-  name  String?
-  group String?
-  model String?
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  name    String?
+  model   String?
+  gateway String?
+  group   String?
+}
+
+model gateway {
+  id   String  @id @default(auto()) @map("_id") @db.ObjectId
+  name String?
 }

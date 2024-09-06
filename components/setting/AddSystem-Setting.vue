@@ -1,3 +1,0 @@
-<template>
-  Add System
-</template>

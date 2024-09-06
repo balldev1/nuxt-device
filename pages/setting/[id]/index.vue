@@ -16,7 +16,7 @@
             </div>
             <div class="flex flex-col w-36 ">
               <h1 class="text-white font-bold text-xl ">Setting Config </h1>
-              <span class="text-[12px]  text-white"> {{ id }}</span>
+              <span class="text-[12px]  text-white"> {{ device[0]?.model }}</span>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
         </div>
         <!--    Dashboard    -->
         <div class="mt-5 ">
-          <DashboardSetting/>
+          <DashboardSetting :device="device" />
         </div>
       </div>
     </div>
@@ -43,8 +43,38 @@
 <script setup lang="ts">
 import {useRoute} from 'vue-router';
 import DashboardSetting from "~/components/setting/Dashboard-Setting.vue";
-// Get the current route
+import {onMounted, ref} from "vue";
+
+interface Device {
+  _id: string;
+  name: any;
+  model: any;
+  parent_group: any;
+  group: any;
+}
+const device = ref<Device[]>([]);
 const route = useRoute();
 const id = route.params.id
+const error = ref<string | null>(null);
+const isLoading = ref(true);
+import axios from 'axios';
+
+const fetchData = async () => {
+  try {
+    // ใช้ axios ในการดึงข้อมูล
+    const response = await axios.get(`/api/parameter/${id}`);
+    device.value = response.data;
+    console.log(device)
+  } catch (err: any) {
+    error.value = err.message;
+    console.error('Error fetching data:', err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchData();
+});
 
 </script>

@@ -33,12 +33,7 @@ import {onMounted, ref} from "vue";
 
 interface Device {
   _id: string;
-  _deviceId?: {
-    _Manufacturer: any;
-    _OUI: any;
-    _ProductClass: any;
-    _SerialNumber: any;
-  };
+  name: any;
 }
 
 const device = ref<Device[]>([]);
@@ -46,7 +41,7 @@ const error = ref<string | null>(null);
 const isLoading = ref(true); // Track loading state
 const fetchData = async () => {
   try {
-    const response = await fetch('api/devices');
+    const response = await fetch('api/model');
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -63,7 +58,6 @@ const fetchData = async () => {
 onMounted(() => {
   fetchData();
 });
-
 
 </script>
 

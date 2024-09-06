@@ -4,7 +4,10 @@
     <div class="text-4xl flex items-end text-sky-950 ">
       What are you
       .. .
-      <div class="flex flex-col items-center justify-center">
+      <div class="mx-2  shadow-md shadow-gray-200  text-sm bg-gradient-to-t from-sky-950 to-sky-800 py-1  px-4 rounded-xl  items-center flex justify-center text-white">
+        Setting Config
+      </div>
+      <div class="flex flex-row items-center justify-center">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
             <path fill="currentColor" d="M12,21L15.6,16.2C14.6,15.45 13.35,15 12,15C10.65,15 9.4,15.45 8.4,16.2L12,21"
@@ -46,9 +49,6 @@
           </svg>
         </div>
       </div>
-    </div>
-    <div class="mx-2  shadow-md shadow-gray-200   bg-gradient-to-t from-sky-950 to-sky-800 py-1  px-4 rounded-xl  items-center flex justify-center text-white">
-     Setting Config {{id}}
     </div>
     <div class="relative tooltip tooltip-warning tooltip-right rounded-2xl p-4 bg-gradient-to-t from-yellow-400 to-yellow-50
     shadow-sm shadow-sky-950" data-tip="Hello have a nice day :)">
