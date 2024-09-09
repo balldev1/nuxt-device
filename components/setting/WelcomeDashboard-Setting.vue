@@ -3,7 +3,9 @@
    bg-gray-200 rounded-md">
     <div class="text-4xl flex items-end text-sky-950 ">
       What are you
-      .. .
+      <div class="flex gap-4 items-center justify-center mx-2">
+        <span class="loading loading-dots text-red-600 loading-sm"></span>
+      </div>
       <div class="mx-2  shadow-md shadow-gray-200  text-sm bg-gradient-to-t from-sky-950 to-sky-800 py-1  px-4 rounded-xl  items-center flex justify-center text-white">
         Setting Config
       </div>
