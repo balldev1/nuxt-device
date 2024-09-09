@@ -1,7 +1,7 @@
 import prisma from "~/server/prisma";
 import { createError, sendError } from "h3";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event :any) => {
     try {
         // รับ path parameters จาก URL
         const { name, id } = event.context.params;
@@ -26,21 +26,21 @@ export default defineEventHandler(async (event) => {
         // ค้นหาข้อมูลใน modeltest โดยใช้ค่า modelId
         const modelData = await prisma.modeltest.findUnique({
             where: {
-                id: modelId,
+                id: modelId as any,
             },
         });
 
         // ค้นหาข้อมูลใน gateway โดยใช้ค่า gatewayId
         const gatewayData = await prisma.gateway.findUnique({
             where: {
-                id: gatewayId,
+                id: gatewayId as any,
             },
         });
 
         // ค้นหาข้อมูลใน grouptest โดยใช้ค่า groupId
         const groupData = await prisma.grouptest.findUnique({
             where: {
-                id: groupId,
+                id: groupId as any,
             },
         });
 
