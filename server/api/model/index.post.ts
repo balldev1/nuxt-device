@@ -5,19 +5,21 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event); // ดึงข้อมูลที่ส่งมาจาก request body
 
         // ตรวจสอบว่ามีข้อมูลที่จำเป็นครบถ้วนหรือไม่
-        if (!body.name) {
+        if (!body.name || !body.munuFacturer || !body.softwareversion) {
             return { error: 'Please provide name .' };
         }
 
         // สร้างเอกสารใหม่ในฐานข้อมูล
-        const newModel = await prisma.modeltest.create({
+        const newModel:any = await prisma.modeltest.create({
             data: {
                 name: body.name,
+                munufacturer: body.munufacturer,
+                softwareversion: body.softwareversion,
             }
         });
 
         return newModel;
-    } catch (error) {
+    } catch (error:any) {
         return { error: 'Error creating group', details: error.message };
     }
 });

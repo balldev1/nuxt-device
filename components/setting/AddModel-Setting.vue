@@ -2,14 +2,17 @@
   <div class="bg-gray-200 rounded-md  shadow-sm  shadow-gray-950">
     <div
         class="flex gap-2 items-center justify-center text-white  mb-5 bg-gradient-to-t from-sky-950 to-sky-800 py-2 rounded-t-md shadow-sm shadow-gray-400">
-      <svg xmlns="http://www.w3.org/2000/svg"  width="30" height="30"
-           viewBox="0 0 56 56"><path fill="currentColor" d="M10.785 20.723c0-6.657 3.516-10.102 10.195-10.102h21.047v-.586c0-4.828-2.46-7.265-7.36-7.265H9.638c-4.899 0-7.36 2.437-7.36 7.265v24.656c0 4.852 2.461 7.266 7.36 7.266h1.148Zm10.57 32.508h25.032c4.875 0 7.336-2.415 7.336-7.243V21.074c0-4.828-2.461-7.265-7.336-7.265H21.356c-4.922 0-7.36 2.437-7.36 7.265v24.914c0 4.828 2.438 7.243 7.36 7.243m12.563-9.165c-1.078 0-1.945-.867-1.945-2.039v-6.515h-6.586c-1.078 0-2.063-.938-2.063-2.016c0-1.031.985-1.992 2.063-1.992h6.586v-6.492c0-1.149.867-2.016 1.945-2.016s1.922.867 1.922 2.016v6.492h6.375c1.195 0 2.18.914 2.18 1.992c0 1.102-.985 2.016-2.18 2.016H35.84v6.515c0 1.172-.844 2.04-1.922 2.04"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+           viewBox="0 0 56 56">
+        <path fill="currentColor"
+              d="M10.785 20.723c0-6.657 3.516-10.102 10.195-10.102h21.047v-.586c0-4.828-2.46-7.265-7.36-7.265H9.638c-4.899 0-7.36 2.437-7.36 7.265v24.656c0 4.852 2.461 7.266 7.36 7.266h1.148Zm10.57 32.508h25.032c4.875 0 7.336-2.415 7.336-7.243V21.074c0-4.828-2.461-7.265-7.336-7.265H21.356c-4.922 0-7.36 2.437-7.36 7.265v24.914c0 4.828 2.438 7.243 7.36 7.243m12.563-9.165c-1.078 0-1.945-.867-1.945-2.039v-6.515h-6.586c-1.078 0-2.063-.938-2.063-2.016c0-1.031.985-1.992 2.063-1.992h6.586v-6.492c0-1.149.867-2.016 1.945-2.016s1.922.867 1.922 2.016v6.492h6.375c1.195 0 2.18.914 2.18 1.992c0 1.102-.985 2.016-2.18 2.016H35.84v6.515c0 1.172-.844 2.04-1.922 2.04"/>
+      </svg>
       Add Model
     </div>
     <div
         class=" px-5 pb-4 space-y-5 pt-2  ">
       <label
-          class="form-control    ">
+          class="form-control  grid grid-cols-2 gap-5  ">
         <div
             class="border-2 w-full  flex items-center justify-center ">
           <div class="w-full max-w-sm">
@@ -18,21 +21,56 @@
               <span class="text-white">What is Model Name ?</span>
             </div>
             <input
-                   v-model="group"
-                   type="text" placeholder="name"
-                   class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
+                v-model="group"
+                type="text" placeholder="name"
+                class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
+          </div>
+        </div>
+        <div :class="{'cursor-not-allowed': !group, 'tooltip tooltip-top ': !group}"
+             :data-tip="!group ? 'กรุณากรอก Model Name ก่อน' : ''"
+             class="border-2 w-full  flex items-center justify-center ">
+          <div class="w-full max-w-sm">
+            <div
+                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+              <span class="text-white">What is MunuFacturer ?</span>
+            </div>
+            <input
+                v-model="munufacturer"
+                type="text"
+                placeholder="munufacturer"
+                :disabled="!group"
+                class="input border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full placeholder:text-sm"
+            />
+          </div>
+        </div>
+        <div :class="{'cursor-not-allowed': !munufacturer, 'tooltip tooltip-top ': !munufacturer}"
+             :data-tip="!munufacturer ? 'กรุณากรอก SoftWareVersion ก่อน' : ''"
+             class="border-2 w-full  flex items-center justify-center ">
+          <div class="w-full max-w-sm">
+            <div
+                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+              <span class="text-white">What is SoftWareVersion ?</span>
+            </div>
+            <input
+                v-model="softwareversion"
+                type="text"
+                placeholder="softwareversion"
+                :disabled="!munufacturer"
+                class="input border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full placeholder:text-sm"
+            />
           </div>
         </div>
       </label>
       <div class="flex flex-col items-center justify-center">
-        <h1 class="badge bg-yellow-300 border-none px-4 py-4 mt-2 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold "> กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
+        <h1 class="badge bg-yellow-300 border-none px-4 py-4 mt-2 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold ">
+          กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
         <div class="flex  items-center justify-center gap-6 pt-6">
-          <button :disabled="!group"
+          <button :disabled="!group ||!munufacturer ||!softwareversion"
                   @click="confirmSubmit"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-44 border-none text-white shadow-sm shadow-gray-950">
             Confirm
           </button>
-          <button :disabled="!group"
+          <button :disabled="!group ||!munufacturer ||!softwareversion"
                   @click="confirmReset"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400 w-44 border-none text-white shadow-sm shadow-gray-950">
             Reset
@@ -54,6 +92,8 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 
 const group = ref('');
+const munufacturer = ref('');
+const softwareversion = ref('');
 const selectedMode = ref('');
 const mode = ref<null>(null);
 const error = ref<string | null>(null);
@@ -90,6 +130,8 @@ const confirmReset = async () => {
 
   if (result.isConfirmed) {
     group.value = '';
+    munufacturer.value = '';
+    softwareversion.value = '';
     selectedMode.value = '';
 
     Swal.fire('Reset!', 'The form has been reset.', 'success');
@@ -115,11 +157,11 @@ const confirmSubmit = async () => {
     }
 
     try {
-      const response = await axios.post('/api/group', {
+      const response = await axios.post('/api/model', {
         name: group.value,
         parentId: selectedMode.value,
       });
-      console.log('Data submitted successfully:', response.data);
+      // console.log('Data submitted successfully:', response.data);
       Swal.fire('Success', 'Group created successfully!', 'success');
     } catch (err: any) {
       error.value = err.message;
@@ -133,8 +175,28 @@ onMounted(() => {
   fetchData();
 });
 
+// Watchers to clear values based on conditions
+watch(group, (newVal) => {
+  if (!newVal) {
+    munufacturer.value = '';
+    softwareversion.value = '';
+  }
+});
+
+watch(munufacturer, (newVal) => {
+  if (!newVal) {
+    softwareversion.value = '';
+  }
+});
+
 </script>
 
 <style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+input[type="text"]:disabled {
+  @apply bg-gray-100/10 cursor-not-allowed; /* ใช้ Tailwind เพื่อกำหนดสไตล์ */
+}
 </style>
