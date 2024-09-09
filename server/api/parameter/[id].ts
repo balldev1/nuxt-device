@@ -10,16 +10,7 @@ interface GroupData {
 }
 
 interface Result {
-    [key: string]: {
-        [key: string]: {
-            id: string;
-            name: string;
-            model: string;
-            gateway: string | null;
-            group: string | null;
-            groupParams: any | null;
-        };
-    };
+    [key: number]: any
 }
 
 export default defineEventHandler(async (event) => {
@@ -148,7 +139,7 @@ export default defineEventHandler(async (event) => {
                 // Ensure parent group exists
                 if (parentGroup) {
                     // Use a fallback value when parentGroup.name is null
-                    const parentGroupName = parentGroup.name ?? "Unknown Parent Group"; // Fallback to a default value if null
+                    const parentGroupName:any = parentGroup.name ?? "Unknown Parent Group"; // Fallback to a default value if null
 
                     if (!result[parentGroupName]) {
                         result[parentGroupName] = {};
@@ -170,10 +161,10 @@ export default defineEventHandler(async (event) => {
         // สร้าง object.key โดยใช้ parentname , groupname
         const finalResult: any = {};
 
-        Object.keys(result).forEach((parentName) => {
+        Object.keys(result).forEach((parentName:any) => {
             finalResult[parentName] = {};
 
-            Object.values(result[parentName]).forEach((param) => {
+            Object.values(result[parentName]).forEach((param:any) => {
                 // Use groupParams or group as the group name
                 const groupName = param.groupParams || param.group || "Unknown Group";
 

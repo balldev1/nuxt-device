@@ -73,7 +73,7 @@ import Swal from 'sweetalert2';
 
 const group = ref('');
 const selectedMode = ref('');
-const mode = ref<null>(null);
+const mode = ref<any>(null);
 const error = ref<string | null>(null);
 const isLoading = ref(true);
 

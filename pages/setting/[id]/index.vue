@@ -64,7 +64,7 @@ const fetchData = async () => {
     // ใช้ axios ในการดึงข้อมูล
     const response = await axios.get(`/api/parameter/${id}`);
     device.value = response.data;
-    console.log(device)
+    // console.log(device)
   } catch (err: any) {
     error.value = err.message;
     console.error('Error fetching data:', err);

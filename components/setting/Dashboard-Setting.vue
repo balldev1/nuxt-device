@@ -30,11 +30,10 @@
         <h1 class="  text-white   ">Config Paramete </h1>
       </div>
       <div class="p-4 flex w-full gap-5 flex-col">
-        <NuxtLink :to="`/setting`"
+        <NuxtLink @click="selectParameter('Home')"
                   class="flex text-white z-20 hover:text-yellow-400  btn  bg-gradient-to-t from-sky-950 to-sky-800 shadow-gray-400 shadow-sm border-none ">
           <div class=" w-full flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 20 20"><g fill="currentColor"><path d="M5.05 14.95a1 1 0 1 1 1.414-1.414A5 5 0 0 0 15 10a1 1 0 1 1 2 0a7 7 0 0 1-11.95 4.95Z"/><path d="M13.559 12.832a1 1 0 1 1-1.11-1.664l3-2a1 1 0 1 1 1.11 1.664l-3 2Z"/><path d="M18.832 12.445a1 1 0 0 1-1.664 1.11l-2-3a1 1 0 1 1 1.664-1.11l2 3Zm-3.975-7.594a1 1 0 1 1-1.414 1.414a5 5 0 0 0-8.536 3.536a1 1 0 1 1-2 0a7 7 0 0 1 11.95-4.95Z"/><path d="M6.349 6.969a1 1 0 0 1 1.11 1.664l-3.001 2a1 1 0 1 1-1.11-1.664l3-2Z"/><path d="M1.075 7.356a1 1 0 1 1 1.664-1.11l2 3a1 1 0 1 1-1.664 1.11l-2-3Z"/></g></svg>
-            <h1>Back Setting Device</h1>
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 16 16"><g fill="currentColor"><path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5ZM3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.58 26.58 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346c-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219V8.062Zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.767 24.767 0 0 1-1.871-.183a.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736l.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25.286 25.286 0 0 0 1.922-.188a.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785l-.842-1.7a.25.25 0 0 0-.182-.135Z"/><path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2V1.866ZM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5Z"/></g></svg>            <h1>What Config</h1>
           </div>
         </NuxtLink>
         <button @click="selectParameter('Addmodel')"
@@ -52,35 +51,22 @@
             <h1 >Add Group</h1>
           </div>
         </button>
-
-        <div
-            class="dropdown border-2 flex z-50  text-white">
-          <div tabIndex={0} role="button"
-               class="btn text-white z-50  hover:text-yellow-400 bg-gradient-to-t from-sky-950 to-sky-800 shadow-gray-400  shadow-sm border-none w-full">
-            <div class=" w-full flex items-center   gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height=""
-                   viewBox="0 0 24 24">
-                <g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5">
-                  <path stroke-linecap="round"
-                        d="M21 7.353v9.294a.6.6 0 0 1-.309.525l-8.4 4.666a.6.6 0 0 1-.582 0l-8.4-4.666A.6.6 0 0 1 3 16.647V7.353a.6.6 0 0 1 .309-.524l8.4-4.667a.6.6 0 0 1 .582 0l8.4 4.667a.6.6 0 0 1 .309.524Z"/>
-                  <path stroke-linecap="round" d="m3.528 7.294l8.18 4.544a.6.6 0 0 0 .583 0l8.209-4.56M12 21v-9"/>
-                  <path fill="currentColor"
-                        d="m11.691 11.829l-7.8-4.334A.6.6 0 0 0 3 8.02v8.627a.6.6 0 0 0 .309.525l7.8 4.333A.6.6 0 0 0 12 20.98v-8.627a.6.6 0 0 0-.309-.524Z"/>
-                </g>
-              </svg>
-              <h1 class="">Selete Parameter</h1>
-            </div>
+        <button @click="selectParameter('Parameter')"
+                class="flex text-white  hover:text-yellow-400  btn z-10 bg-gradient-to-t from-sky-950 to-sky-800 shadow-gray-400 shadow-sm border-none ">
+          <div class=" w-full flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                 viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5">
+                <path stroke-linecap="round"
+                      d="M21 7.353v9.294a.6.6 0 0 1-.309.525l-8.4 4.666a.6.6 0 0 1-.582 0l-8.4-4.666A.6.6 0 0 1 3 16.647V7.353a.6.6 0 0 1 .309-.524l8.4-4.667a.6.6 0 0 1 .582 0l8.4 4.667a.6.6 0 0 1 .309.524Z"/>
+                <path stroke-linecap="round" d="m3.528 7.294l8.18 4.544a.6.6 0 0 0 .583 0l8.209-4.56M12 21v-9"/>
+                <path fill="currentColor"
+                      d="m11.691 11.829l-7.8-4.334A.6.6 0 0 0 3 8.02v8.627a.6.6 0 0 0 .309.525l7.8 4.333A.6.6 0 0 0 12 20.98v-8.627a.6.6 0 0 0-.309-.524Z"/>
+              </g>
+            </svg>
+            <h1>Parameter Config</h1>
           </div>
-          <ul tabIndex={0} class="dropdown-content menu
-             bg-gradient-to-t from-sky-950 z-50 to-sky-800 shadow-gray-950 shadow-sm border-none  w-52 p-2
-              rounded-md text-white">
-            <li v-for="(item,index) in parameter" :key="item.index"
-                @click="selectParameter(item.name)"
-                class="rounded-md hover:bg-yellow-300 p-2 hover:text-black">
-                {{item.name}}
-            </li>
-          </ul>
-        </div>
+        </button>
       </div>
     </div>
     <!--  setting  -->
@@ -105,8 +91,8 @@ interface Device {
 }
 
 const route = useRoute();
-const id = route.params.id
-const selectedParameter = ref<string | null>('Manufacturer');
+const id = ref<any | null>(route.params.id);
+const selectedParameter = ref<string | null>('Home');
 
 
 function selectParameter(parameter: string) {
@@ -117,23 +103,6 @@ interface Device {
   name: any;
   model: any;
 }
-const parameter = ref<Device[]>([]);
 const props = defineProps<{ device: Device }>();
 
-const fetchData = async () => {
-  try {
-    // ใช้ axios ในการดึงข้อมูล
-    const response = await axios.get(`/api/group`);
-    parameter.value = response.data;
-  } catch (err: any) {
-    error.value = err.message;
-    console.error('Error fetching data:', err);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-onMounted(() => {
-  fetchData();
-});
 </script>
