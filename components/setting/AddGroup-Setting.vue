@@ -10,26 +10,8 @@
         class=" px-5 pb-4 space-y-5 pt-2  ">
       <label
           class="form-control grid grid-cols-2  gap-5  w-full">
-        <div>
-          <div
-              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-            <span class="text-white">What is Mode ?</span>
-          </div>
-          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select v-model="selectedMode"
-                    class="select w-full  border-none focus:outline-none bg-white">
-              <option value="" disabled selected>Selected Mode</option>
-              <option
-                  v-for="item in mode"
-                  :key="item._id"
-                  :value="item._id">
-                {{ item.name }}
-              </option>
-            </select>
-          </div>
-        </div>
         <div
-             class="border-2 ">
+            class="border-2 ">
           <div class="w-full ">
             <div
                 class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
@@ -41,16 +23,83 @@
                 class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
           </div>
         </div>
+        <div
+            class="border-2 ">
+          <div class="w-full ">
+            <div
+                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+              <span class="text-white">What is Name Parameter?</span>
+            </div>
+            <input
+                v-model="nameParameter"
+                type="text" placeholder="name"
+                class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
+          </div>
+        </div>
+        <div>
+          <div
+              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+            <span class="text-white">What is Mode ?</span>
+          </div>
+          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
+            <select v-model="selectedGroup"
+                    class="select w-full  border-none focus:outline-none bg-white">
+              <option value="" disabled selected>Selected Mode</option>
+              <option
+                  v-for="item in groupData"
+                  :key="item._id"
+                  :value="item._id">
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div
+              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+            <span class="text-white">What is Gateway ?</span>
+          </div>
+          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
+            <select v-model="selectedGateway"
+                    class="select w-full  border-none focus:outline-none bg-white">
+              <option value="" disabled selected>Selected Gateway</option>
+              <option
+                  v-for="item in gatewayData"
+                  :key="item._id"
+                  :value="item._id">
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div
+              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+            <span class="text-white">What is Model ?</span>
+          </div>
+          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
+            <select v-model="selectedModel"
+                    class="select w-full  border-none focus:outline-none bg-white">
+              <option value="" disabled selected>Selected Model</option>
+              <option
+                  v-for="item in modelData"
+                  :key="item._id"
+                  :value="item._id">
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
+        </div>
       </label>
       <div class="flex flex-col items-center justify-center">
         <h1 class="badge bg-yellow-300 border-none px-4 py-4 mt-2 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold "> กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
         <div class="flex  items-center justify-center gap-6 pt-6">
-          <button :disabled="!group || !selectedMode"
+          <button :disabled="!group || !selectedGroup || !selectedModel || !selectedGateway "
                   @click="confirmSubmit"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-44 border-none text-white shadow-sm shadow-gray-950">
             Confirm
           </button>
-          <button :disabled="!group || !selectedMode "
+          <button :disabled="!group || !selectedGroup || !selectedModel || !selectedGateway "
                   @click="confirmReset"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400 w-44 border-none text-white shadow-sm shadow-gray-950">
             Reset
@@ -72,24 +121,54 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 
 const group = ref('');
-const selectedMode = ref('');
-const mode = ref<any>(null);
+const nameParameter = ref('');
+const selectedGateway = ref('');
+const selectedGroup = ref('');
+const selectedModel = ref('');
+
 const error = ref<string | null>(null);
 const isLoading = ref(true);
 
+const gatewayData = ref<any[]>([]);
+const groupData = ref<any[]>([]);
+const modelData = ref<any[]>([]);
+
 const fetchData = async () => {
   try {
-    const response = await fetch(`/api/group/`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+    // Use Promise.all to fetch data from all three endpoints simultaneously
+    const [gatewayResponse, groupResponse, modelResponse] = await Promise.all([
+      fetch('/api/gateway/'),
+      fetch('/api/group/'),
+      fetch('/api/model/'),
+    ]);
+
+    // Check for errors in each response
+    if (!gatewayResponse.ok) {
+      throw new Error(`Gateway error! Status: ${gatewayResponse.status}`);
     }
-    const data = await response.json();
-    // console.log('Fetched device data:', data); // ตรวจสอบข้อมูลที่ได้รับ
-    mode.value = data;
+    if (!groupResponse.ok) {
+      throw new Error(`Group error! Status: ${groupResponse.status}`);
+    }
+    if (!modelResponse.ok) {
+      throw new Error(`Model error! Status: ${modelResponse.status}`);
+    }
+
+    // Parse the JSON data from each response
+    const gatewayDataJson = await gatewayResponse.json();
+    const groupDataJson = await groupResponse.json();
+    const modelDataJson = await modelResponse.json();
+
+    // Assign the data to the corresponding state variables
+    gatewayData.value = gatewayDataJson;
+    groupData.value = groupDataJson;
+    modelData.value = modelDataJson;
+
   } catch (err: any) {
+    // Handle errors and display appropriate messages
     error.value = err.message;
     console.error('Error fetching data:', err);
   } finally {
+    // Set loading to false once data fetching is complete
     isLoading.value = false;
   }
 };
@@ -108,7 +187,9 @@ const confirmReset = async () => {
 
   if (result.isConfirmed) {
     group.value = '';
-    selectedMode.value = '';
+    selectedGateway.value = '';
+    selectedGroup.value = '';
+    selectedModel.value = '';
 
     Swal.fire('Reset!', 'The form has been reset.', 'success');
   }
@@ -127,7 +208,7 @@ const confirmSubmit = async () => {
   });
 
   if (result.isConfirmed) {
-    if (!selectedMode.value || !group.value) {
+    if (!group || !selectedGroup || !selectedModel || !selectedGateway) {
       Swal.fire('Error', 'Please fill in all fields.', 'error');
       return;
     }
@@ -135,7 +216,11 @@ const confirmSubmit = async () => {
     try {
       const response = await axios.post('/api/group', {
         name: group.value,
-        parentId: selectedMode.value,
+        nameParameter: nameParameter.value,
+        parentId: selectedGroup.value,
+        model: selectedModel.value,
+        gateway: selectedGateway.value,
+
       });
       console.log('Data submitted successfully:', response.data);
       Swal.fire('Success', 'Group created successfully!', 'success');

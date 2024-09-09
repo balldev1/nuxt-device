@@ -10,15 +10,24 @@ export default defineEventHandler(async (event) => {
         }
 
         // สร้างเอกสารใหม่ในฐานข้อมูล
-        const newGroup = await prisma.grouptest.create({
+        const newGroup:any = await prisma.grouptest.create({
             data: {
                 name: body.name,
                 parentId: body.parentId
             }
         });
 
-        return newGroup;
-    } catch (error) {
+        const newParameter:any = await prisma.parametertest.create({
+            data:{
+                name: body.nameParameter,
+                model: body.model,
+                gateway: body.gateway,
+                group: newGroup.id,
+            }
+        })
+
+        return newParameter;
+    } catch (error:any) {
         return { error: 'Error creating group', details: error.message };
     }
 });

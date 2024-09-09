@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
             parentId: parentIdData.filter(parent => parent.parentId === item.id)
         }));
         return result;
-    } catch (error) {
+    } catch (error:any) {
         return { error: 'Error fetching data', details: error.message };
     }
 });
