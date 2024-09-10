@@ -23,70 +23,29 @@
         class=" px-5 pb-4 space-y-5 pt-2  ">
       <label
           class="form-control grid grid-cols-2  gap-5  w-full">
-        <!-- now -->
-        <div>
-          <div
-              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-            <span class="text-white">What is Moel ?</span>
-          </div>
-          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select v-model="selectedGroup"
-                    class="select w-full  border-none focus:outline-none bg-white">
-              <option value="" disabled selected>Selected Mode</option>
-              <option
-                  v-for="item in groupData"
-                  :key="item._id"
-                  :value="item._id">
-                {{ item.name }}
-              </option>
-            </select>
+        <div
+            class="border-2 ">
+          <div class="w-full ">
+            <div
+                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+              <span class="text-white">What is GroupMode ?</span>
+            </div>
+            <input
+                v-model="nameGroup"
+                type="text" placeholder="name"
+                class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
           </div>
         </div>
-        <div>
-          <div
-              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-            <span class="text-white">What is Moel ?</span>
-          </div>
-          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select v-model="selectedGroup"
-                    class="select w-full  border-none focus:outline-none bg-white">
-              <option value="" disabled selected>Selected Mode</option>
-              <option
-                  v-for="item in groupData"
-                  :key="item._id"
-                  :value="item._id">
-                {{ item.name }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <div
-              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-            <span class="text-white">What is Moel ?</span>
-          </div>
-          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select v-model="selectedGroup"
-                    class="select w-full  border-none focus:outline-none bg-white">
-              <option value="" disabled selected>Selected Mode</option>
-              <option
-                  v-for="item in groupData"
-                  :key="item._id"
-                  :value="item._id">
-                {{ item.name }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <!-- end -->
         <div>
           <div
               class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
             <span class="text-white">What is Mode ?</span>
           </div>
           <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select v-model="selectedGroup"
-                    class="select w-full  border-none focus:outline-none bg-white">
+            <select
+                :disabled="!nameGroup"
+                v-model="selectedGroup"
+                class="select w-full border-none focus:outline-none bg-white disabled:bg-gray-100/90 cursor-not-allowed">
               <option value="" disabled selected>Selected Mode</option>
               <option
                   v-for="item in groupData"
@@ -97,61 +56,73 @@
             </select>
           </div>
         </div>
-        <div
-            class=" ">
-          <div class="w-full ">
-            <div
-                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-              <span class="text-white">What is Group Name ?</span>
-            </div>
-            <input
-                :disabled="!selectedGroup"
-                v-model="nameGroup"
-                type="text" placeholder="name"
-                class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
-          </div>
-        </div>
-        <!--        <div-->
-        <!--            class="border-2 ">-->
-        <!--          <div class="w-full ">-->
-        <!--            <div-->
-        <!--                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">-->
-        <!--              <span class="text-white">What is Name Parameter?</span>-->
-        <!--            </div>-->
-        <!--            <input-->
-        <!--                v-model="nameParameter"-->
-        <!--                type="text" placeholder="name"-->
-        <!--                class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>-->
-        <!--          </div>-->
-        <!--        </div>-->
         <div>
           <div
               class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
             <span class="text-white">What is Gateway ?</span>
           </div>
-          <input
-              v-model="nameGateway"
-              type="text" placeholder="name"
-              class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
+          <input :disabled="!selectedGroup"
+                 v-model="nameGateway"
+                 type="text" placeholder="gateway"
+                 class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
         </div>
-        <!--        <div>-->
-        <!--          <div-->
-        <!--              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">-->
-        <!--            <span class="text-white">What is Model ?</span>-->
-        <!--          </div>-->
-        <!--          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">-->
-        <!--            <select v-model="selectedModel"-->
-        <!--                    class="select w-full  border-none focus:outline-none bg-white">-->
-        <!--              <option value="" disabled selected>Selected Model</option>-->
-        <!--              <option-->
-        <!--                  v-for="item in modelData"-->
-        <!--                  :key="item._id"-->
-        <!--                  :value="item._id">-->
-        <!--                {{ item.name }}-->
-        <!--              </option>-->
-        <!--            </select>-->
-        <!--          </div>-->
-        <!--        </div>-->
+        <!--   now-->
+        <div>
+          <div class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
+            <span class="text-white">What is Product ?</span>
+          </div>
+          <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
+            <select
+                v-model="selectedManufacturer"
+                class="select w-full border-none focus:outline-none bg-white disabled:bg-gray-100/90 cursor-not-allowed">
+              <option value="" disabled selected>Select Product</option>
+              <option
+                  v-for="item in uniqueManufacturers"
+                  :key="item"
+                  :value="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
+            <span class="text-white">What is Model ?</span>
+          </div>
+          <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
+            <select
+
+                v-model="selectedName"
+                class="select w-full border-none focus:outline-none bg-white disabled:bg-gray-100/90 cursor-not-allowed">
+              <option value="" disabled selected>Select Model</option>
+              <option
+                  v-for="item in filteredNames"
+                  :key="item"
+                  :value="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
+            <span class="text-white">What is softwareversion ?</span>
+          </div>
+          <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
+            <select
+
+                v-model="selectedSoftwareversion"
+                class="select w-full border-none focus:outline-none bg-white disabled:bg-gray-100/90 cursor-not-allowed">
+              <option value="" disabled selected>Select softwareversion</option>
+              <option
+                  v-for="item in filteredSoftwareversions"
+                  :key="item"
+                  :value="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
       </label>
       <div class="flex flex-col items-center justify-center">
         <h1 class="badge bg-yellow-300 border-none px-4 py-4 mt-2 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold ">
@@ -189,7 +160,9 @@ const nameGateway = ref('');
 const selectedGateway = ref('');
 const selectedGroup = ref('');
 const selectedModel = ref('');
-
+const selectedManufacturer = ref(null);
+const selectedName = ref(null);
+const selectedSoftwareversion = ref(null);
 
 const error = ref<string | null>(null);
 const isLoading = ref(true);
@@ -198,40 +171,64 @@ const isLoading = ref(true);
 const groupData = ref<any[]>([]);
 const modelData = ref<any[]>([]);
 
+// กรอง manufacturer ซ้ำออก
+const uniqueManufacturers = computed(() => {
+  return Array.from(new Set(modelData.value.map(item => item.munufacturer)));
+});
+
+// กรอง name ตาม manufacturer ที่เลือก
+const filteredNames = computed(() => {
+  if (!selectedManufacturer.value) return [];
+  return Array.from(
+      new Set(
+          modelData.value
+              .filter(item => item.munufacturer === selectedManufacturer.value)
+              .map(item => item.name)
+      )
+  );
+});
+
+// กรอง softwareversion ตาม manufacturer และ name ที่เลือก
+const filteredSoftwareversions = computed(() => {
+  if (!selectedName.value) return [];
+  return Array.from(
+      new Set(
+          modelData.value
+              .filter(
+                  item =>
+                      item.munufacturer === selectedManufacturer.value &&
+                      item.name === selectedName.value
+              )
+              .map(item => item.softwareversion)
+      )
+  );
+});
+
+// Watcher เพื่อรีเซ็ตค่าเมื่อมีการเปลี่ยนแปลง
+watch(selectedManufacturer, () => {
+  selectedName.value = null;
+  selectedSoftwareversion.value = null;
+});
+
+watch(selectedName, () => {
+  selectedSoftwareversion.value = null;
+});
+
 const fetchData = async () => {
   try {
-    // Use Promise.all to fetch data from all three endpoints simultaneously
+    // Use Promise.all to fetch data from both endpoints
     const [groupResponse, modelResponse] = await Promise.all([
-      // fetch('/api/gateway/'),
-      fetch('/api/group/'),
-      fetch('/api/model/'),
+      axios.get('/api/group/'),
+      axios.get('/api/model/'),
     ]);
 
-    // Check for errors in each response
-    // if (!gatewayResponse.ok) {
-    //   throw new Error(`Gateway error! Status: ${gatewayResponse.status}`);
-    // }
-    if (!groupResponse.ok) {
-      throw new Error(`Group error! Status: ${groupResponse.status}`);
-    }
-    if (!modelResponse.ok) {
-      throw new Error(`Model error! Status: ${modelResponse.status}`);
-    }
-
-    // Parse the JSON data from each response
-    // const gatewayDataJson = await gatewayResponse.json();
-    const groupDataJson = await groupResponse.json();
-    const modelDataJson = await modelResponse.json();
-
-    // Assign the data to the corresponding state variables
-    // gatewayData.value = gatewayDataJson;
-    groupData.value = groupDataJson;
-    modelData.value = modelDataJson;
-
-  } catch (err: any) {
+    // Assign data to state variables
+    groupData.value = groupResponse.data;
+    modelData.value = modelResponse.data;
+  } catch (err) {
     // Handle errors and display appropriate messages
-    error.value = err.message;
-    console.error('Error fetching data:', err);
+    error.value = err.response ? err.response.data.message : err.message;
+    console.error('Error fetching data:', error.value);
   } finally {
     // Set loading to false once data fetching is complete
     isLoading.value = false;
@@ -284,7 +281,6 @@ const confirmSubmit = async () => {
       const response = await axios.post('/api/group', {
         name: nameGroup.value,
         nameParameter: nameParameter.value,
-        nameGateway: nameGateway.value,
         parentId: selectedGroup.value,
         model: selectedModel.value,
         gateway: selectedGateway.value,
@@ -322,4 +318,5 @@ input[type="text"]:disabled {
   @apply bg-gray-100/90 cursor-not-allowed;
   /* ใช้ Tailwind เพื่อกำหนดสไตล์ */
 }
+
 </style>

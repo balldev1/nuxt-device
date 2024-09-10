@@ -18,7 +18,7 @@
           <div class="w-full ">
             <div
                 class="label badge rounded-md p-2  py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-              <span class="text-white">What is Munufacturer Name ?</span>
+              <span class="text-white">What is Product ?</span>
             </div>
             <multiselect
                 v-model="munufacturerSeleted"
@@ -34,14 +34,13 @@
                  placeholder:text-sm placeholder:bade"
             />
           </div>
-
         </div>
         <div
             class=" w-full  flex items-center justify-center ">
           <div class="w-full max-w-sm">
             <div
                 class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-              <span class="text-white">What is Model Name ?</span>
+              <span class="text-white">What is Model ?</span>
             </div>
             <multiselect
                 :disabled="!munufacturerSeleted "
@@ -53,7 +52,7 @@
                 :close-on-select="true"
                 tag-placeholder="Press enter to create manufacturer"
                 placeholder="เลือกหรือเพิ่มข้อมูลใหม่"
-                class="rounded-md border-none bg-white shadow-sm shadow-sky-950
+                class=" rounded-md border-none bg-white  shadow-sm shadow-sky-950
                  focus:outline-none focus:shadow-sky-950 focus:shadow
                  placeholder:text-sm placeholder:bade"
             />
@@ -272,5 +271,4 @@ watch(munufacturerSeleted, (newVal) => {
 </script>
 
 <style>
-
 </style>
