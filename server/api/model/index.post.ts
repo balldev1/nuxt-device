@@ -2,11 +2,24 @@ import prisma from '../../prisma';  // ตรวจสอบเส้นทา�
 
 export default defineEventHandler(async (event) => {
     try {
-        const body = await readBody(event); // ดึงข้อมูลที่ส่งมาจาก request body
+        const body = await readBody(event);
 
         // ตรวจสอบว่ามีข้อมูลที่จำเป็นครบถ้วนหรือไม่
         if (!body.name || !body.munufacturer || !body.softwareversion) {
-            return { error: 'Please provide name .' };
+            return { error: 'Please provide all required fields.' };
+        }
+
+        // ตรวจสอบว่าข้อมูลซ้ำในฐานข้อมูลหรือไม่
+        const existingModel = await prisma.modeltest.findFirst({
+            where: {
+                name: body.name,
+                munufacturer: body.munufacturer,
+                softwareversion: body.softwareversion,
+            },
+        });
+
+        if (existingModel) {
+            return { error: 'Duplicate data found' };
         }
 
         // สร้างเอกสารใหม่ในฐานข้อมูล
@@ -15,7 +28,7 @@ export default defineEventHandler(async (event) => {
                 name: body.name,
                 munufacturer: body.munufacturer,
                 softwareversion: body.softwareversion,
-            }
+            },
         });
 
         return newModel;

@@ -15,35 +15,12 @@
           class="  grid grid-cols-2 gap-5  ">
         <div
             class=" w-full  flex items-center justify-center ">
-          <div class="w-full max-w-sm">
-            <div
-                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-              <span class="text-white">What is Model Name ?</span>
-            </div>
-            <multiselect
-                v-model="modelSeleted"
-                :options="modelName"
-                :multiple="false"
-                :taggable="true"
-                @tag="addModelName"
-                :close-on-select="true"
-                tag-placeholder="Press enter to create manufacturer"
-                placeholder="เลือกหรือเพิ่มข้อมูลใหม่"
-                class="rounded-md border-none bg-white shadow-sm shadow-sky-950
-                 focus:outline-none focus:shadow-sky-950 focus:shadow
-                 placeholder:text-sm placeholder:bade"
-            />
-          </div>
-        </div>
-        <div
-            class=" w-full  flex items-center justify-center ">
           <div class="w-full ">
             <div
                 class="label badge rounded-md p-2  py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
               <span class="text-white">What is Munufacturer Name ?</span>
             </div>
             <multiselect
-                :disabled="!modelSeleted"
                 v-model="munufacturerSeleted"
                 :options="munufacturerName"
                 :multiple="false"
@@ -58,6 +35,29 @@
             />
           </div>
 
+        </div>
+        <div
+            class=" w-full  flex items-center justify-center ">
+          <div class="w-full max-w-sm">
+            <div
+                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+              <span class="text-white">What is Model Name ?</span>
+            </div>
+            <multiselect
+                :disabled="!munufacturerSeleted "
+                v-model="modelSeleted"
+                :options="modelName"
+                :multiple="false"
+                :taggable="true"
+                @tag="addModelName"
+                :close-on-select="true"
+                tag-placeholder="Press enter to create manufacturer"
+                placeholder="เลือกหรือเพิ่มข้อมูลใหม่"
+                class="rounded-md border-none bg-white shadow-sm shadow-sky-950
+                 focus:outline-none focus:shadow-sky-950 focus:shadow
+                 placeholder:text-sm placeholder:bade"
+            />
+          </div>
         </div>
         <div
             class=" w-full  flex items-center justify-center ">
@@ -139,24 +139,19 @@ const addSoftwareVersion = (newTag:any) => {
   softwareversionName.value.unshift(newTag);
   softwareversionSeleted.value = newTag;
 }
-
+// ฟังก์ชันดึงข้อมูลทั้งหมดตอนเริ่มต้น
 const fetchData = async () => {
   try {
     const response = await axios.get('/api/model/');
     getModel.value = response.data;
-    // ใช้ map เพื่อดึงเฉพาะค่าที่ต้องการ
-    modelName.value = getModel.value.map((item: any) => item.name);
-    munufacturerName.value = getModel.value.map((item: any) => item.munufacturer);
-    softwareversionName.value = getModel.value.map((item: any) => item.softwareversion);
-    // console.log(modelName); // ตรวจสอบผลลัพธ์ที่ได้จากการดึงค่า name
-  } catch (err:any) {
+    munufacturerName.value = Array.from(new Set(getModel.value.map((item: any) => item.munufacturer)));
+  } catch (err: any) {
     error.value = err.message;
     console.error('Error fetching data:', err);
   } finally {
     isLoading.value = false;
   }
 };
-
 
 const confirmReset = async () => {
   const result = await Swal.fire({
@@ -193,7 +188,7 @@ const confirmSubmit = async () => {
   });
 
   if (result.isConfirmed) {
-    if (!modelSeleted.value || !munufacturerSeleted.value || !softwareversionSeleted.value ) {
+    if (!modelSeleted.value || !munufacturerSeleted.value || !softwareversionSeleted.value) {
       Swal.fire('Error', 'Please fill in all fields.', 'error');
       return;
     }
@@ -204,9 +199,19 @@ const confirmSubmit = async () => {
         munufacturer: munufacturerSeleted.value,
         softwareversion: softwareversionSeleted.value,
       });
-      // console.log('Data submitted successfully:', response.data);
+
+      // ตรวจสอบว่ามี error จาก server เช่น ข้อมูลซ้ำ
+      if (response.data.error === 'Duplicate data found') {
+        Swal.fire('Error', 'Duplicate data found. Please provide unique values.', 'error');
+        // รีเซ็ตค่าเมื่อข้อมูลซ้ำ
+        modelSeleted.value = '';
+        munufacturerSeleted.value = '';
+        softwareversionSeleted.value = '';
+        return;
+      }
+
       Swal.fire('Success', 'Group created successfully!', 'success');
-    } catch (err: any) {
+    } catch (err:any) {
       error.value = err.message;
       console.error('Error submitting data:', err);
       Swal.fire('Error', 'Error submitting data.', 'error');
@@ -214,14 +219,46 @@ const confirmSubmit = async () => {
   }
 };
 
+// เรียกใช้ fetchData ตอน component ถูก mounted
 onMounted(() => {
   fetchData();
 });
 
-// Watchers to clear values based on conditions
+// Watcher เพื่อติดตามการเปลี่ยนแปลงของ munufacturerSeleted
+watch(munufacturerSeleted, async (newVal) => {
+  // รีเซ็ตค่า modelName และ softwareversionName ก่อน
+  modelName.value = [];
+  softwareversionName.value = [];
+  modelSeleted.value = null; // รีเซ็ตค่า model ที่เลือก
+  softwareversionSeleted.value = null; // รีเซ็ตค่า software version ที่เลือก
+
+  if (newVal) {
+    // ดึงข้อมูลใหม่จาก API ที่กรองตาม munufacturer ที่เลือก
+    try {
+      const response = await axios.get(`/api/model?munufacturer=${encodeURIComponent(newVal)}`);
+      const filteredData = response.data.filter((item: any) => item.munufacturer === newVal);
+
+      // กรองและตั้งค่าค่าเฉพาะชื่อ model และ software version
+      modelName.value = Array.from(new Set(filteredData.map((item: any) => item.name)));
+      softwareversionName.value = Array.from(new Set(filteredData.map((item: any) => item.softwareversion)));
+    } catch (err: any) {
+      error.value = err.message;
+      console.error('Error fetching filtered data:', err);
+    }
+  }
+});
+
 watch(modelSeleted, (newVal) => {
   if (!newVal) {
-    munufacturerSeleted.value = '';
+    softwareversionName.value = [];
+    softwareversionSeleted.value = null; // รีเซ็ต software version ที่เลือกด้วย
+  }
+});
+
+// Watchers to clear values based on conditions
+watch(munufacturerSeleted, (newVal) => {
+  if (!newVal) {
+    modelSeleted.value = '';
     softwareversionSeleted.value = '';
   }
 });
