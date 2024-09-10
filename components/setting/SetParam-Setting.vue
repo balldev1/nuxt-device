@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div  v-if="selectedParameter === 'Parameter'" >
-      <ParameterConfigSetting />
-    </div>
     <div v-if="selectedParameter === 'Home'">
       <WelcomeDashboardSetting/>
     </div>
@@ -12,6 +9,9 @@
     </div>
     <div v-if="selectedParameter === 'Addgroup'">
       <AddGroupSetting/>
+    </div>
+    <div  v-if="selectedParameter === 'Parameter'" >
+      <ParameterConfigSetting />
     </div>
   </div>
 </template>

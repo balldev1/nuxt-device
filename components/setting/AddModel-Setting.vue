@@ -11,66 +11,88 @@
     </div>
     <div
         class=" px-5 pb-4 space-y-5 pt-2  ">
-      <label
-          class="form-control  grid grid-cols-2 gap-5  ">
+      <div
+          class="  grid grid-cols-2 gap-5  ">
         <div
-            class="border-2 w-full  flex items-center justify-center ">
+            class=" w-full  flex items-center justify-center ">
           <div class="w-full max-w-sm">
             <div
                 class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
               <span class="text-white">What is Model Name ?</span>
             </div>
-            <input
-                v-model="group"
-                type="text" placeholder="name"
-                class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
-          </div>
-        </div>
-        <div :class="{'cursor-not-allowed': !group, 'tooltip tooltip-top ': !group}"
-             :data-tip="!group ? 'กรุณากรอก Model Name ก่อน' : ''"
-             class="border-2 w-full  flex items-center justify-center ">
-          <div class="w-full max-w-sm">
-            <div
-                class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-              <span class="text-white">What is MunuFacturer ?</span>
-            </div>
-            <input
-                v-model="munufacturer"
-                type="text"
-                placeholder="munufacturer"
-                :disabled="!group"
-                class="input border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full placeholder:text-sm"
+            <multiselect
+                v-model="modelSeleted"
+                :options="modelName"
+                :multiple="false"
+                :taggable="true"
+                @tag="addModelName"
+                :close-on-select="true"
+                tag-placeholder="Press enter to create manufacturer"
+                placeholder="เลือกหรือเพิ่มข้อมูลใหม่"
+                class="rounded-md border-none bg-white shadow-sm shadow-sky-950
+                 focus:outline-none focus:shadow-sky-950 focus:shadow
+                 placeholder:text-sm placeholder:bade"
             />
           </div>
         </div>
-        <div :class="{'cursor-not-allowed': !munufacturer, 'tooltip tooltip-top ': !munufacturer}"
-             :data-tip="!munufacturer ? 'กรุณากรอก SoftWareVersion ก่อน' : ''"
-             class="border-2 w-full  flex items-center justify-center ">
-          <div class="w-full max-w-sm">
+        <div
+            class=" w-full  flex items-center justify-center ">
+          <div class="w-full ">
+            <div
+                class="label badge rounded-md p-2  py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+              <span class="text-white">What is Munufacturer Name ?</span>
+            </div>
+            <multiselect
+                :disabled="!modelSeleted"
+                v-model="munufacturerSeleted"
+                :options="munufacturerName"
+                :multiple="false"
+                :taggable="true"
+                @tag="addMunufacturer"
+                :close-on-select="true"
+                tag-placeholder="Press enter to create manufacturer"
+                placeholder="เลือกหรือเพิ่มข้อมูลใหม่"
+                class=" rounded-md border-none bg-white shadow-sm shadow-sky-950
+                 focus:outline-none focus:shadow-sky-950 focus:shadow
+                 placeholder:text-sm placeholder:bade"
+            />
+          </div>
+
+        </div>
+        <div
+            class=" w-full  flex items-center justify-center ">
+          <div class="w-full ">
             <div
                 class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-              <span class="text-white">What is SoftWareVersion ?</span>
+              <span class="text-white">What is Software Version ?</span>
             </div>
-            <input
-                v-model="softwareversion"
-                type="text"
-                placeholder="softwareversion"
-                :disabled="!munufacturer"
-                class="input border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full placeholder:text-sm"
+            <multiselect
+                :disabled="!modelSeleted || !munufacturerSeleted"
+                v-model="softwareversionSeleted"
+                :options="softwareversionName"
+                :multiple="false"
+                :taggable="true"
+                @tag="addSoftwareVersion"
+                :close-on-select="true"
+                tag-placeholder="Press enter to create manufacturer"
+                placeholder="เลือกหรือเพิ่มข้อมูลใหม่"
+                class="multiselect-custom rounded-md border-none bg-white shadow-sm shadow-sky-950
+                 focus:outline-none focus:shadow-sky-950 focus:shadow
+                 placeholder:text-sm placeholder:bade"
             />
           </div>
         </div>
-      </label>
+      </div>
       <div class="flex flex-col items-center justify-center">
         <h1 class="badge bg-yellow-300 border-none px-4 py-4 mt-2 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold ">
           กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
         <div class="flex  items-center justify-center gap-6 pt-6">
-          <button :disabled="!group ||!munufacturer ||!softwareversion"
+          <button :disabled="!modelSeleted ||!munufacturerSeleted ||!softwareversionSeleted"
                   @click="confirmSubmit"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-44 border-none text-white shadow-sm shadow-gray-950">
             Confirm
           </button>
-          <button :disabled="!group ||!munufacturer ||!softwareversion"
+          <button :disabled="!modelSeleted ||!munufacturerSeleted ||!softwareversionSeleted"
                   @click="confirmReset"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400 w-44 border-none text-white shadow-sm shadow-gray-950">
             Reset
@@ -90,31 +112,51 @@
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
+import Multiselect from 'vue-multiselect'
 
-const group = ref('');
-const munufacturer = ref('');
-const softwareversion = ref('');
 const selectedMode = ref('');
-const mode = ref<null>(null);
+const getModel = ref<any>([]);
+const modelName = ref<any>([]);
+const modelSeleted = ref<any>(null); // เก็บค่าที่เลือก
+const munufacturerName = ref<any>([]);
+const munufacturerSeleted = ref<any>(null); // เก็บค่าที่เลือก
+const softwareversionName = ref<any>([]);
+const softwareversionSeleted = ref<any>(null); // เก็บค่าที่เลือก
 const error = ref<string | null>(null);
 const isLoading = ref(true);
 
+const addModelName = (newTag:any) => {
+  modelName.value.unshift(newTag);
+  modelSeleted.value = newTag;
+}
+
+const addMunufacturer = (newTag:any) => {
+  munufacturerName.value.unshift(newTag);
+  munufacturerSeleted.value = newTag;
+}
+
+const addSoftwareVersion = (newTag:any) => {
+  softwareversionName.value.unshift(newTag);
+  softwareversionSeleted.value = newTag;
+}
+
 const fetchData = async () => {
   try {
-    const response = await fetch(`/api/group/`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data = await response.json();
-    // console.log('Fetched device data:', data); // ตรวจสอบข้อมูลที่ได้รับ
-    mode.value = data;
-  } catch (err: any) {
+    const response = await axios.get('/api/model/');
+    getModel.value = response.data;
+    // ใช้ map เพื่อดึงเฉพาะค่าที่ต้องการ
+    modelName.value = getModel.value.map((item: any) => item.name);
+    munufacturerName.value = getModel.value.map((item: any) => item.munufacturer);
+    softwareversionName.value = getModel.value.map((item: any) => item.softwareversion);
+    // console.log(modelName); // ตรวจสอบผลลัพธ์ที่ได้จากการดึงค่า name
+  } catch (err:any) {
     error.value = err.message;
     console.error('Error fetching data:', err);
   } finally {
     isLoading.value = false;
   }
 };
+
 
 const confirmReset = async () => {
   const result = await Swal.fire({
@@ -129,9 +171,9 @@ const confirmReset = async () => {
   });
 
   if (result.isConfirmed) {
-    group.value = '';
-    munufacturer.value = '';
-    softwareversion.value = '';
+    modelSeleted.value = '';
+    munufacturerSeleted.value = '';
+    softwareversionSeleted.value = '';
     selectedMode.value = '';
 
     Swal.fire('Reset!', 'The form has been reset.', 'success');
@@ -151,15 +193,16 @@ const confirmSubmit = async () => {
   });
 
   if (result.isConfirmed) {
-    if (!selectedMode.value || !group.value) {
+    if (!modelSeleted.value || !munufacturerSeleted.value || !softwareversionSeleted.value ) {
       Swal.fire('Error', 'Please fill in all fields.', 'error');
       return;
     }
 
     try {
       const response = await axios.post('/api/model', {
-        name: group.value,
-        parentId: selectedMode.value,
+        name: modelSeleted.value,
+        munufacturer: munufacturerSeleted.value,
+        softwareversion: softwareversionSeleted.value,
       });
       // console.log('Data submitted successfully:', response.data);
       Swal.fire('Success', 'Group created successfully!', 'success');
@@ -176,27 +219,21 @@ onMounted(() => {
 });
 
 // Watchers to clear values based on conditions
-watch(group, (newVal) => {
+watch(modelSeleted, (newVal) => {
   if (!newVal) {
-    munufacturer.value = '';
-    softwareversion.value = '';
+    munufacturerSeleted.value = '';
+    softwareversionSeleted.value = '';
   }
 });
-
-watch(munufacturer, (newVal) => {
+//
+watch(munufacturerSeleted, (newVal) => {
   if (!newVal) {
-    softwareversion.value = '';
+    softwareversionSeleted.value = '';
   }
 });
 
 </script>
 
 <style>
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-input[type="text"]:disabled {
-  @apply bg-gray-100/10 cursor-not-allowed; /* ใช้ Tailwind เพื่อกำหนดสไตล์ */
-}
 </style>

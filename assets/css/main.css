@@ -1,3 +1,7 @@
+/* นำเข้า CSS ของ vue-multiselect */
+@import 'vue-multiselect/dist/vue-multiselect.css';
+
+/* main.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

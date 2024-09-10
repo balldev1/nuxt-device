@@ -59,18 +59,10 @@
               class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
             <span class="text-white">What is Gateway ?</span>
           </div>
-          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select v-model="selectedGateway"
-                    class="select w-full  border-none focus:outline-none bg-white">
-              <option value="" disabled selected>Selected Gateway</option>
-              <option
-                  v-for="item in gatewayData"
-                  :key="item._id"
-                  :value="item._id">
-                {{ item.name }}
-              </option>
-            </select>
-          </div>
+          <input
+              v-model="group"
+              type="text" placeholder="name"
+              class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
         </div>
         <div>
           <div

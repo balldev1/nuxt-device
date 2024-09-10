@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event); // ดึงข้อมูลที่ส่งมาจาก request body
 
         // ตรวจสอบว่ามีข้อมูลที่จำเป็นครบถ้วนหรือไม่
-        if (!body.name || !body.munuFacturer || !body.softwareversion) {
+        if (!body.name || !body.munufacturer || !body.softwareversion) {
             return { error: 'Please provide name .' };
         }
 

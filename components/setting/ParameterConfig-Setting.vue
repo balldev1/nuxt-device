@@ -16,7 +16,9 @@
         <!-- Loop through sub-groups like system, system1, wandev -->
         <div v-for="(children, childrenName) in parent" :key="childrenName" class="px-5   text-sm flex flex-col gap-2">
           <div class=" flex ">
-            <h3 class="font-bold text-sky-950 text-md bg-lime-400 px-2 py-1 rounded-md">{{ childrenName }}</h3>
+            <div class=" flex items-center gap-2 bg-lime-400 px-2 py-1 rounded-md shadow-sm shadow-sky-950">
+                <h3 class="font-bold text-sky-950 text-md  "> {{ childrenName }}</h3>
+            </div>
           </div>
 
           <!-- Loop through data items like 5555, ProductClass, Manufacturer, balldev -->
