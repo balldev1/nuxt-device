@@ -31,6 +31,8 @@ export default defineEventHandler(async (event) => {
             },
         });
 
+
+        //
         if (parameterData.length === 0) {
             return sendError(
                 event,
@@ -55,7 +57,10 @@ export default defineEventHandler(async (event) => {
             },
         });
 
-        // ข้อมูล grouptest กรอง parentId ที่ไม่เป็น null มา
+
+
+        // // ข้อมูล grouptest กรอง parentId ที่ไม่เป็น nu
+        // ll มา
         const parentIds = groupData
             .map((group) => group.parentId)
             .filter((parentId): parentId is string => parentId !== null);
@@ -69,11 +74,13 @@ export default defineEventHandler(async (event) => {
             },
         });
 
+
+
         // สร้าง array[] group  จับคู่ id : group
         const groupDataMap = new Map(groupData.map((group) => [group.id, group]));
         const parentGroupDataMap = new Map(parentGroupData.map((group) => [group.id, group]));
-
-        // เอาข้อมูลจาก prisma.parameter.model ตอนแรกมาใช้ เพือเอา เลข id จาก parameter.model
+        //
+        // // เอาข้อมูลจาก prisma.parameter.model ตอนแรกมาใช้ เพือเอา เลข id จาก parameter.model
         const modelIds = parameterData
             .map((param) => param.model)
             .filter((modelId): modelId is string => modelId !== null);
@@ -177,6 +184,7 @@ export default defineEventHandler(async (event) => {
         });
 
         return finalResult;
+
     } catch (error) {
         console.error("Error fetching data:", error);
         throw error;

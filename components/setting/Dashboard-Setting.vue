@@ -51,7 +51,8 @@
             <h1 >Add Group</h1>
           </div>
         </button>
-        <button @click="selectParameter('Parameter')"
+        <button
+            @click="selectParameter('Parameter')"
                 class="flex text-white  hover:text-yellow-400  btn z-10 bg-gradient-to-t from-sky-950 to-sky-800 shadow-gray-400 shadow-sm border-none ">
           <div class=" w-full flex items-center gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
@@ -103,6 +104,11 @@ interface Device {
   name: any;
   model: any;
 }
-const props = defineProps<{ device: Device }>();
+const props = defineProps<{
+  device: Device
+}>();
+
+
+
 
 </script>

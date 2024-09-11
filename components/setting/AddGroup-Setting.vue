@@ -23,6 +23,16 @@
         class=" px-5 pb-4 space-y-5 pt-2  ">
       <label
           class="form-control grid grid-cols-2  gap-5  w-full">
+        <div>
+          <div
+              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
+            <span class="text-white">What is Parameter ?</span>
+          </div>
+          <input
+              v-model="nameParameter"
+              type="text" placeholder="name parameter"
+              class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
+        </div>
         <div
             class="border-2 ">
           <div class="w-full ">
@@ -31,29 +41,10 @@
               <span class="text-white">What is GroupMode ?</span>
             </div>
             <input
+                :disabled="!nameParameter"
                 v-model="nameGroup"
-                type="text" placeholder="name"
+                type="text" placeholder="name group"
                 class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
-          </div>
-        </div>
-        <div>
-          <div
-              class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
-            <span class="text-white">What is Mode ?</span>
-          </div>
-          <div class=" shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select
-                :disabled="!nameGroup"
-                v-model="selectedGroup"
-                class="select w-full border-none focus:outline-none bg-white disabled:bg-gray-100/90 cursor-not-allowed">
-              <option value="" disabled selected>Selected Mode</option>
-              <option
-                  v-for="item in groupData"
-                  :key="item._id"
-                  :value="item._id">
-                {{ item.name }}
-              </option>
-            </select>
           </div>
         </div>
         <div>
@@ -61,66 +52,82 @@
               class="label badge rounded-md p-2 py-3  bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950 ">
             <span class="text-white">What is Gateway ?</span>
           </div>
-          <input :disabled="!selectedGroup"
+          <input :disabled="!nameGroup"
                  v-model="nameGateway"
                  type="text" placeholder="gateway"
                  class="input border-none bg-white shadow-sm  shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow w-full  placeholder:text-sm placeholder:bade"/>
         </div>
-        <!--   now-->
         <div>
-          <div class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
+          <div
+              class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
+            <span class="text-white">What is Mode ?</span>
+          </div>
+          <multiselect
+              :disabled="!nameGroup"
+              v-model="selectedGroup"
+              :options="groupData"
+              :close-on-select="true"
+              :multiple="false"
+              :searchable="true"
+              label="name"
+              track-by="_id"
+              placeholder="Selected Mode"
+              class="rounded-md border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow placeholder:text-sm placeholder:bade"
+          />
+        </div>
+        <div>
+          <div
+              class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
             <span class="text-white">What is Product ?</span>
           </div>
           <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select
+            <multiselect
+                :disabled="!selectedGroup || !nameGateway"
                 v-model="selectedManufacturer"
-                class="select w-full border-none focus:outline-none bg-white disabled:bg-gray-100/90 cursor-not-allowed">
-              <option value="" disabled selected>Select Product</option>
-              <option
-                  v-for="item in uniqueManufacturers"
-                  :key="item"
-                  :value="item">
-                {{ item }}
-              </option>
-            </select>
+                :options="uniqueManufacturers"
+                :multiple="false"
+                :close-on-select="true"
+                :searchable="true"
+                placeholder="Select Product"
+                class="rounded-md border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow placeholder:text-sm placeholder:bade"
+            />
           </div>
         </div>
+
         <div>
-          <div class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
+          <div
+              class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
             <span class="text-white">What is Model ?</span>
           </div>
           <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select
-
-                v-model="selectedName"
-                class="select w-full border-none focus:outline-none bg-white disabled:bg-gray-100/90 cursor-not-allowed">
-              <option value="" disabled selected>Select Model</option>
-              <option
-                  v-for="item in filteredNames"
-                  :key="item"
-                  :value="item">
-                {{ item }}
-              </option>
-            </select>
+            <multiselect
+                :disabled="!selectedManufacturer"
+                v-model="selectedModel"
+                :options="filteredNames"
+                :multiple="false"
+                :close-on-select="true"
+                :searchable="true"
+                placeholder="Select Model"
+                class="rounded-md border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow placeholder:text-sm placeholder:bade"
+            />
           </div>
         </div>
         <div>
-          <div class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
+          <div
+              class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
             <span class="text-white">What is softwareversion ?</span>
           </div>
           <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
-            <select
-
+            <multiselect
+                :disabled="!selectedModel"
                 v-model="selectedSoftwareversion"
-                class="select w-full border-none focus:outline-none bg-white disabled:bg-gray-100/90 cursor-not-allowed">
-              <option value="" disabled selected>Select softwareversion</option>
-              <option
-                  v-for="item in filteredSoftwareversions"
-                  :key="item"
-                  :value="item">
-                {{ item }}
-              </option>
-            </select>
+                :options="filteredSoftwareversions"
+                :multiple="false"
+                :close-on-select="true"
+                :searchable="true"
+                placeholder="Select softwareversion"
+                class="rounded-md border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow placeholder:text-sm placeholder:bade"
+            />
           </div>
         </div>
       </label>
@@ -128,12 +135,13 @@
         <h1 class="badge bg-yellow-300 border-none px-4 py-4 mt-2 rounded-lg shadow-sm shadow-gray-950 text-md  text-black font-bold ">
           กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
         <div class="flex  items-center justify-center gap-6 pt-6">
-          <button :disabled="!nameGroup || !selectedGroup  || !nameGateway "
-                  @click="confirmSubmit"
-                  className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-44 border-none text-white shadow-sm shadow-gray-950">
+          <button
+              :disabled="!nameGroup || !nameGateway  || !selectedGroup || !selectedManufacturer || !selectedModel || !selectedSoftwareversion"
+              @click="confirmSubmit"
+              className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-44 border-none text-white shadow-sm shadow-gray-950">
             Confirm
           </button>
-          <button :disabled="!nameGroup || !selectedGroup || !selectedModel || !selectedGateway "
+          <button :disabled="!nameParameter"
                   @click="confirmReset"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400 w-44 border-none text-white shadow-sm shadow-gray-950">
             Reset
@@ -153,20 +161,19 @@
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
-
+import Multiselect from 'vue-multiselect';
+import { useRouter } from 'vue-router';
 const nameGroup = ref('');
 const nameParameter = ref('');
 const nameGateway = ref('');
-const selectedGateway = ref('');
 const selectedGroup = ref('');
 const selectedModel = ref('');
 const selectedManufacturer = ref(null);
-const selectedName = ref(null);
 const selectedSoftwareversion = ref(null);
 
 const error = ref<string | null>(null);
 const isLoading = ref(true);
-
+const router = useRouter();
 // const gatewayData = ref<any[]>([]);
 const groupData = ref<any[]>([]);
 const modelData = ref<any[]>([]);
@@ -188,30 +195,22 @@ const filteredNames = computed(() => {
   );
 });
 
+console.log(selectedModel)
+
 // กรอง softwareversion ตาม manufacturer และ name ที่เลือก
 const filteredSoftwareversions = computed(() => {
-  if (!selectedName.value) return [];
+  if (!selectedModel.value) return [];
   return Array.from(
       new Set(
           modelData.value
               .filter(
                   item =>
                       item.munufacturer === selectedManufacturer.value &&
-                      item.name === selectedName.value
+                      item.name === selectedModel.value
               )
               .map(item => item.softwareversion)
       )
   );
-});
-
-// Watcher เพื่อรีเซ็ตค่าเมื่อมีการเปลี่ยนแปลง
-watch(selectedManufacturer, () => {
-  selectedName.value = null;
-  selectedSoftwareversion.value = null;
-});
-
-watch(selectedName, () => {
-  selectedSoftwareversion.value = null;
 });
 
 const fetchData = async () => {
@@ -248,12 +247,13 @@ const confirmReset = async () => {
   });
 
   if (result.isConfirmed) {
+    nameParameter.value = '';
     nameGroup.value = '';
     nameGateway.value = ''
-    selectedGateway.value = '';
     selectedGroup.value = '';
+    selectedManufacturer.value = '';
     selectedModel.value = '';
-
+    selectedSoftwareversion.value = '';
     Swal.fire('Reset!', 'The form has been reset.', 'success');
   }
 };
@@ -278,13 +278,16 @@ const confirmSubmit = async () => {
     }
 
     try {
-      const response = await axios.post('/api/group', {
-        name: nameGroup.value,
+      const response = await axios.post('/api/parameter', {
         nameParameter: nameParameter.value,
-        parentId: selectedGroup.value,
-        model: selectedModel.value,
-        gateway: selectedGateway.value,
+        nameGroup: nameGroup.value,
+        nameGateway: nameGateway.value,
+          selectedGroup: selectedGroup.value,
+        selectedManufacturer: selectedManufacturer.value,
+        selectedModel: selectedModel.value,
+        selectedSoftwareversion: selectedSoftwareversion.value,
       });
+
 
       // ตรวจสอบว่ามี error จาก server เช่น ข้อมูลซ้ำ
       if (response.data.error === 'Group already exists') {
@@ -293,7 +296,26 @@ const confirmSubmit = async () => {
         return;
       }
 
-      Swal.fire('Success', 'Group created successfully!', 'success');
+
+      Swal.fire('Success', 'Group created successfully!', 'success').then(() => {
+        // Show loading before redirecting
+        Swal.fire({
+          title: 'Loading...',
+          text: 'Redirecting to settings page...',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        // Delay of 3 seconds before navigating
+        setTimeout(() => {
+          router.push('/setting').then(() => {
+            Swal.close(); // Close the loading animation after routing
+          });
+        }, 500);
+      });
     } catch (err: any) {
       error.value = err.message;
       console.error('Error submitting data:', err);
@@ -305,6 +327,10 @@ const confirmSubmit = async () => {
 
 onMounted(() => {
   fetchData();
+});
+
+watch(selectedGroup, (newVal) => {
+  console.log('Selected Group:', newVal); // Log the selected group value when it changes
 });
 
 </script>

@@ -1,29 +1,29 @@
 <template>
   <div v-if="props.device.length > 0 ">
   <div
-      class="mt-2  relative  rounded-md">
+      class="mt-2  relative  ">
     <div
-        class=" rounded-md bg-gray-200 shadow-sm shadow-sky-950 text-sky-950 ">
-      <table class="table rounded-md">
-        <thead class=" text-[14px] text-md   text-white">
+        class="  bg-gray-200 shadow-sm shadow-sky-950 text-sky-950 ">
+      <table class="table ">
+        <thead class=" text-[14px] text-md text-center  text-white">
         <!-- _deviceId -->
         <tr >
           <th class="bg-sky-950  rounded-l-md"></th>
-          <th  class="bg-sky-950 ">Model</th>
-          <th  class="bg-sky-950"></th>
-          <th  class="bg-sky-950"></th>
+          <th  class="bg-sky-950 ">Prodauct</th>
+          <th  class="bg-sky-950">Model</th>
+          <th  class="bg-sky-950">Software</th>
           <th class="bg-sky-950"></th>
-          <th class=" bg-sky-950 rounded-r-md">Config</th>
+          <th class=" bg-sky-950 rounded-r-md">Confaig</th>
         </tr>
         </thead>
-        <tbody class="shadow-sm ">
+        <tbody class="shadow-sm text-center">
         <tr  v-for="(item,index) in props.device"
              :key="item._id"
-            class="text-sky-950 font-semibold ">
+            class="text-sky-950 font-semibold  ">
           <td class="">{{ index +1 }}</td>
+          <td>{{ item.munufacturer }}</td>
           <td>{{ item.name }}</td>
-          <td></td>
-          <td></td>
+          <td>{{ item.softwareversion }}</td>
           <td></td>
           <td class="relative cursor-pointer ">
             <div class="dropdown dropdown-hover">
@@ -73,6 +73,8 @@
 interface Device {
   _id: any;
   name: any;
+  munufacturer: any;
+  softwareversion: any;
 }
 
 const props = defineProps<{

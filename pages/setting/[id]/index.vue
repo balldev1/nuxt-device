@@ -16,6 +16,10 @@
             </div>
             <div class="flex flex-col w-36 ">
               <h1 class="text-white font-bold text-xl ">Setting Config </h1>
+              <div v-if="modelData"
+                  v-for="item in modelData" class="text-[14px] badge bg-yellow-400 text-sky-950 border-none">
+                {{item.munufacturer}} {{item.name}}
+              </div>
               <span class="text-[12px]  text-white"> {{ device[0]?.model }}</span>
             </div>
           </div>
@@ -44,6 +48,7 @@
 import {useRoute} from 'vue-router';
 import DashboardSetting from "~/components/setting/Dashboard-Setting.vue";
 import {onMounted, ref} from "vue";
+import axios from 'axios';
 
 interface Device {
   _id: string;
@@ -52,19 +57,35 @@ interface Device {
   parent_group: any;
   group: any;
 }
+
+interface Model {
+  _id: string;
+  name: any;
+  munufacturer: any;
+  softwareversion: any;
+}
+
 const device = ref<Device[]>([]);
+const modelData = ref<Model>([]);
 const route = useRoute();
 const id = route.params.id
 const error = ref<string | null>(null);
 const isLoading = ref(true);
-import axios from 'axios';
 
 const fetchData = async () => {
   try {
-    // ใช้ axios ในการดึงข้อมูล
-    const response = await axios.get(`/api/parameter/${id}`);
-    device.value = response.data;
-    // console.log(device)
+    // ใช้ Promise.all ในการดึงข้อมูลจากทั้งสอง API พร้อมกัน
+    const [responseParameter, responseModel] = await Promise.all([
+      axios.get(`/api/parameter/${id}`), // ใช้ axios
+      axios.get(`/api/model/${id}`),
+    ]);
+
+    // เช็คสถานะ responseModel และแปลงข้อมูลเป็น JSON
+    if (responseModel.status !== 200) {
+      throw new Error(`Model error! Status: ${responseModel.status}`);
+    }
+    device.value = responseParameter.data;
+    modelData.value = responseModel.data;
   } catch (err: any) {
     error.value = err.message;
     console.error('Error fetching data:', err);
@@ -72,6 +93,7 @@ const fetchData = async () => {
     isLoading.value = false;
   }
 };
+
 
 onMounted(() => {
   fetchData();
