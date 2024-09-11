@@ -60,17 +60,19 @@
         <div>
           <div
               class="label badge rounded-md p-2 py-3 bg-gradient-to-t from-sky-950 to-sky-800 border-none shadow-sm shadow-sky-950">
-            <span class="text-white">What is Mode ?</span>
+            <span class="text-white">What is Group ?</span>
           </div>
+<!--          :disabled="!nameGroup"-->
           <multiselect
-              :disabled="!nameGroup"
               v-model="selectedGroup"
               :options="groupData"
+              @tag="addSelectedGroup"
+              track-by="name"
               :close-on-select="true"
               :multiple="false"
               :searchable="true"
+              :taggable="true"
               label="name"
-              track-by="_id"
               placeholder="Selected Mode"
               class="rounded-md border-none bg-white shadow-sm shadow-sky-950 focus:outline-none focus:shadow-sky-950 focus:shadow placeholder:text-sm placeholder:bade"
           />
@@ -82,9 +84,12 @@
           </div>
           <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
             <multiselect
-                :disabled="!selectedGroup || !nameGateway"
+                :taggable="true"
+                @tag="addManufacturer"
                 v-model="selectedManufacturer"
                 :options="uniqueManufacturers"
+                track-by="munufacturer"
+                :disabled="!selectedGroup || !nameGateway"
                 :multiple="false"
                 :close-on-select="true"
                 :searchable="true"
@@ -101,9 +106,11 @@
           </div>
           <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
             <multiselect
-                :disabled="!selectedManufacturer"
+                :taggable="true"
+                @tag="addMode"
                 v-model="selectedModel"
                 :options="filteredNames"
+                track-by="name"
                 :multiple="false"
                 :close-on-select="true"
                 :searchable="true"
@@ -119,9 +126,11 @@
           </div>
           <div class="shadow-sm shadow-sky-950 rounded-md w-sm">
             <multiselect
-                :disabled="!selectedModel"
+                :taggable="true"
+                @tag="addSoftware"
                 v-model="selectedSoftwareversion"
                 :options="filteredSoftwareversions"
+                track-by="softwareversion"
                 :multiple="false"
                 :close-on-select="true"
                 :searchable="true"
@@ -136,7 +145,7 @@
           กรุณาตรวจสอบความเรียบร้อยก่อนกดยืนยัน </h1>
         <div class="flex  items-center justify-center gap-6 pt-6">
           <button
-              :disabled="!nameGroup || !nameGateway  || !selectedGroup || !selectedManufacturer || !selectedModel || !selectedSoftwareversion"
+              :disabled="!nameGroup || !nameGateway  || !selectedGroup || !selectedManufacturer "
               @click="confirmSubmit"
               className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-44 border-none text-white shadow-sm shadow-gray-950">
             Confirm
@@ -162,7 +171,8 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import Multiselect from 'vue-multiselect';
-import { useRouter } from 'vue-router';
+import {useRouter} from 'vue-router';
+
 const nameGroup = ref('');
 const nameParameter = ref('');
 const nameGateway = ref('');
@@ -178,6 +188,8 @@ const router = useRouter();
 const groupData = ref<any[]>([]);
 const modelData = ref<any[]>([]);
 
+
+
 // กรอง manufacturer ซ้ำออก
 const uniqueManufacturers = computed(() => {
   return Array.from(new Set(modelData.value.map(item => item.munufacturer)));
@@ -185,7 +197,16 @@ const uniqueManufacturers = computed(() => {
 
 // กรอง name ตาม manufacturer ที่เลือก
 const filteredNames = computed(() => {
-  if (!selectedManufacturer.value) return [];
+  // ถ้าไม่มีค่า selectedManufacturer ให้แสดง modelData ทั้งหมด
+  if (!selectedManufacturer.value) {
+    return Array.from(
+        new Set(
+            modelData.value.map(item => item.name) // ดึงชื่อทั้งหมดโดยไม่กรอง
+        )
+    );
+  }
+
+  // ถ้ามีค่า selectedManufacturer ให้กรองตาม manufacturer ที่เลือก
   return Array.from(
       new Set(
           modelData.value
@@ -194,8 +215,6 @@ const filteredNames = computed(() => {
       )
   );
 });
-
-console.log(selectedModel)
 
 // กรอง softwareversion ตาม manufacturer และ name ที่เลือก
 const filteredSoftwareversions = computed(() => {
@@ -271,7 +290,6 @@ const confirmSubmit = async () => {
   });
 
   if (result.isConfirmed) {
-    // || !selectedModel.value || !selectedGateway.value
     if (!nameGroup.value || !selectedGroup.value) {
       Swal.fire('Error', 'Please fill in all fields.', 'error');
       return;
@@ -282,20 +300,17 @@ const confirmSubmit = async () => {
         nameParameter: nameParameter.value,
         nameGroup: nameGroup.value,
         nameGateway: nameGateway.value,
-          selectedGroup: selectedGroup.value,
+        selectedGroup: selectedGroup.value,
         selectedManufacturer: selectedManufacturer.value,
         selectedModel: selectedModel.value,
         selectedSoftwareversion: selectedSoftwareversion.value,
       });
 
-
       // ตรวจสอบว่ามี error จาก server เช่น ข้อมูลซ้ำ
-      if (response.data.error === 'Group already exists') {
-        Swal.fire('Error', 'Group already exists. Please choose another name.', 'error');
-        nameGroup.value = ''; // รีเซ็ตค่าเมื่อข้อมูลซ้ำ
+      if (response.data.error) {
+        Swal.fire('Error', response.data.error, 'error'); // แจ้งเตือนข้อมูลซ้ำตามข้อความ error ที่ได้รับจาก server
         return;
       }
-
 
       Swal.fire('Success', 'Group created successfully!', 'success').then(() => {
         // Show loading before redirecting
@@ -324,14 +339,36 @@ const confirmSubmit = async () => {
   }
 };
 
-
 onMounted(() => {
   fetchData();
 });
 
-watch(selectedGroup, (newVal) => {
-  console.log('Selected Group:', newVal); // Log the selected group value when it changes
-});
+const addSelectedGroup = (newTag) => {
+  // สร้างออบเจกต์ใหม่ตามโครงสร้างที่ต้องการ
+  const newGroup = {
+    name: newTag,
+  };
+  // เพิ่มข้อมูลใหม่เข้าไปใน groupData
+  groupData.value.push(newGroup);
+  // ตั้งค่า selectedGroup ให้เป็นข้อมูลที่เพิ่งเพิ่ม
+  selectedGroup.value = newGroup;
+};
+
+const addManufacturer = (newTag) => {
+  uniqueManufacturers.value.unshift(newTag);
+  selectedManufacturer.value = newTag;
+}
+
+const addMode = (newTag) => {
+  filteredNames.value.unshift(newTag);
+  selectedModel.value = newTag;
+};
+
+
+const addSoftware = (newTag) => {
+  filteredSoftwareversions.value.unshift(newTag);
+  selectedSoftwareversion.value = newTag;
+}
 
 </script>
 

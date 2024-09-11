@@ -2,67 +2,84 @@ import prisma from '../../prisma';  // ตรวจสอบเส้นทา�
 
 export default defineEventHandler(async (event) => {
     try {
-
         const body = await readBody(event);
 
         // ตรวจสอบว่ามีข้อมูลที่จำเป็นครบถ้วนหรือไม่
         if (!body.nameParameter || !body.nameGroup || !body.nameGateway || !body.selectedGroup
-            || !body.selectedManufacturer || !body.selectedModel || !body.selectedModel) {
-            return { error: 'Please provide Information.' };
+            || !body.selectedManufacturer || !body.selectedModel || !body.selectedSoftwareversion) {
+            return { error: 'Please provide all required information.' };
         }
 
-        // ตรวจสอบว่ามี Group ที่ซ้ำอยู่แล้วในฐานข้อมูลหรือไม่
-        const existingGroup = await prisma.grouptest.findFirst({
-            where: {
-                name: body.nameGroup,
-                parentId: body.selectedGroup._id,
-            },
-        });
+        let parentGroupId;
 
+        // ตรวจสอบว่า selectedGroup มี _id หรือไม่
+        if (body.selectedGroup && body.selectedGroup._id) {
+            parentGroupId = body.selectedGroup._id;
+        } else if (body.selectedGroup) {
+            // สร้าง Group ใหม่หากไม่มี _id
+            const newParentGroup = await prisma.grouptest.create({
+                data: {
+                    name: body.selectedGroup,
+                },
+            });
+
+            // เก็บ id ของ Group ที่สร้างใหม่
+            parentGroupId = newParentGroup.id;
+        } else {
+            return { error: 'Invalid selectedGroup data.' }; // หาก selectedGroup ไม่มีข้อมูลที่ถูกต้อง
+        }
+
+        // ตรวจสอบข้อมูลทั้งหมดก่อนสร้าง
+        const [existingGroup, existingGateway, existingParametertest] = await Promise.all([
+            prisma.grouptest.findFirst({
+                where: {
+                    name: body.nameGroup,
+                    parentId: parentGroupId,
+                },
+            }),
+            prisma.gateway.findFirst({
+                where: {
+                    name: body.nameGateway,
+                },
+            }),
+            prisma.parametertest.findFirst({
+                where: {
+                    name: body.nameParameter,
+                    model: body.selectedModel.id, // Update as necessary
+                    gateway: body.nameGateway.id, // Update as necessary
+                    group: body.nameGroup.id, // Update as necessary
+                },
+            }),
+        ]);
+
+        // ตรวจสอบว่ามีข้อมูลซ้ำอยู่หรือไม่
         if (existingGroup) {
-            return { error: 'Group already exists' }; // แจ้งว่าข้อมูลซ้ำ
+            return { error: 'Group already exists' };
         }
 
-        // สร้าง grouptest
+        if (existingGateway) {
+            return { error: 'Gateway already exists' };
+        }
+
+        if (existingParametertest) {
+            return { error: 'Parametertest already exists' };
+        }
+
+        // สร้าง Group ใหม่โดยใช้ parentId ที่ได้จากขั้นตอนข้างต้น
         const newGroup:any = await prisma.grouptest.create({
             data: {
                 name: body.nameGroup,
-                parentId: body.selectedGroup._id,
+                parentId: parentGroupId,
             },
         });
 
-        // ตรวจสอบว่ามี gateway ที่ซ้ำอยู่แล้วในฐานข้อมูลหรือไม่
-        const existingGateway = await prisma.gateway.findFirst({
-            where: {
-                name: body.nameGateway,
-            },
-        });
-
-        if (existingGateway) {
-            return { error: 'Gateway already exists' }; // แจ้งว่าข้อมูลซ้ำ
-        }
-
-        // สร้าง gateway
         const newGateway:any = await prisma.gateway.create({
             data: {
                 name: body.nameGateway,
             },
         });
 
-        // ตรวจสอบว่ามี modeltest ที่ซ้ำอยู่แล้วในฐานข้อมูลหรือไม่
-        const existingModeltest = await prisma.modeltest.findFirst({
-            where: {
-                name: body.selectedModel,
-                munufacturer: body.selectedManufacturer,
-                softwareversion: body.selectedSoftwareversion,
-            },
-        });
-
-        if (existingModeltest) {
-            return { error: 'Modeltest already exists' }; // แจ้งว่าข้อมูลซ้ำ
-        }
-
-        // สร้าง modelteest
+        // สร้าง modeltest
         const newModel:any = await prisma.modeltest.create({
             data: {
                 name: body.selectedModel,
@@ -70,20 +87,6 @@ export default defineEventHandler(async (event) => {
                 softwareversion: body.selectedSoftwareversion,
             },
         });
-
-        // ตรวจสอบว่ามี parametertest ที่ซ้ำอยู่แล้วในฐานข้อมูลหรือไม่
-        const existingParametertest = await prisma.parametertest.findFirst({
-            where: {
-                name: body.nameParameter,
-                model: newModel.id,
-                gateway: newGateway.id,
-                group: newGroup.id,
-            },
-        });
-
-        if (existingParametertest) {
-            return { error: 'Parametertest already exists' }; // แจ้งว่าข้อมูลซ้ำ
-        }
 
         // สร้าง parametertest
         const newParameter:any = await prisma.parametertest.create({
@@ -96,7 +99,9 @@ export default defineEventHandler(async (event) => {
         });
 
         return newParameter;
-    } catch (error:any) {
+
+    } catch (error) {
+        console.error('Error creating group:', error);
         return { error: 'Error creating group', details: error.message };
     }
 });

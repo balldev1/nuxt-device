@@ -91,7 +91,7 @@
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400  w-44 border-none text-white shadow-sm shadow-gray-950">
             Confirm
           </button>
-          <button :disabled="!modelSeleted ||!munufacturerSeleted ||!softwareversionSeleted"
+          <button :disabled="!munufacturerSeleted"
                   @click="confirmReset"
                   className="btn bg-gradient-to-t from-sky-950 to-sky-800 hover:opacity-90 hover:text-yellow-400 w-44 border-none text-white shadow-sm shadow-gray-950">
             Reset
